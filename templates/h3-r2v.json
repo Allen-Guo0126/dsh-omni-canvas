@@ -1,0 +1,267 @@
+{
+ "1": {
+  "inputs": {
+   "unet_name": "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+   "weight_dtype": "default"
+  },
+  "class_type": "UNETLoader",
+  "_meta": {
+   "title": "UNET加载器"
+  }
+ },
+ "2": {
+  "inputs": {
+   "clip_name": "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+   "type": "minimax",
+   "device": "default"
+  },
+  "class_type": "CLIPLoader",
+  "_meta": {
+   "title": "CLIP加载器"
+  }
+ },
+ "3": {
+  "inputs": {
+   "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+  },
+  "class_type": "VAELoader",
+  "_meta": {
+   "title": "VAE加载器"
+  }
+ },
+ "4": {
+  "inputs": {
+   "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+  },
+  "class_type": "VAELoader",
+  "_meta": {
+   "title": "VAE加载器"
+  }
+ },
+ "6": {
+  "inputs": {
+   "fps": [
+    "18",
+    2
+   ],
+   "bit_depth": 8,
+   "color_space": "sRGB",
+   "codec": "none",
+   "images": [
+    "18",
+    0
+   ],
+   "audio": [
+    "18",
+    1
+   ]
+  },
+  "class_type": "CreateVideo",
+  "_meta": {
+   "title": "创建视频"
+  }
+ },
+ "7": {
+  "inputs": {
+   "filename_prefix": "video/MiniMaxH3_Director_t2v",
+   "format": "auto",
+   "format.codec": "auto",
+   "codec": "auto",
+   "video-preview": "",
+   "video": [
+    "6",
+    0
+   ]
+  },
+  "class_type": "SaveVideo",
+  "_meta": {
+   "title": "保存视频"
+  }
+ },
+ "8": {
+  "inputs": {
+   "source": [
+    "18",
+    5
+   ]
+  },
+  "class_type": "PreviewAny",
+  "_meta": {
+   "title": "Director 运行报告"
+  }
+ },
+ "16": {
+  "inputs": {
+   "model": [
+    "17",
+    0
+   ]
+  },
+  "class_type": "MiniMaxH3MemoryEfficientSageAttentionPatch",
+  "_meta": {
+   "title": "MiniMax H3 Mem Eff Sage Attention Patch"
+  }
+ },
+ "17": {
+  "inputs": {
+   "sage_attention": "auto",
+   "allow_compile": false,
+   "model": [
+    "26",
+    0
+   ]
+  },
+  "class_type": "PathchSageAttentionKJ",
+  "_meta": {
+   "title": "Patch Sage Attention KJ"
+  }
+ },
+ "18": {
+  "inputs": {
+   "task_type": "r2v — 参考主体生视频(Reference to Video)",
+   "global_prompt": "",
+   "bd_grp_sample": "采样设置",
+   "cfg": 1.0,
+   "seed": 583102933186402,
+   "frame_rate": 24.0,
+   "width": 672,
+   "height": 1216,
+   "ref_max_size": 1216,
+   "total_frames": 192,
+   "timeline_data": "{\"version\":5,\"editMode\":\"segment\",\"totalFrames\":192,\"frameRate\":24,\"video\":{\"fileName\":\"\",\"videoFile\":\"\",\"subfolder\":\"\",\"type\":\"input\",\"frames\":[],\"frameMap\":[],\"sourceFrameCount\":333,\"deletedSourceRanges\":[]},\"videoClips\":[],\"global\":{\"taskType\":\"r2v — 参考主体生视频(Reference to Video)\",\"prompt\":\"\",\"refs\":[],\"refAudios\":[],\"referenceVideo\":{\"videoFile\":\"\",\"fileName\":\"\",\"type\":\"input\",\"subfolder\":\"\"},\"continuousReference\":false,\"commonEnabled\":false,\"commonCollapsed\":false,\"refVideos\":[],\"genImage\":{\"imageFile\":\"\"},\"sourceWidth\":1920,\"sourceHeight\":1080},\"output\":{\"mode\":\"fixed\",\"aspectRatio\":\"9:16 (竖屏)\",\"megapixels\":0.8,\"multiple\":32,\"longEdge\":1216,\"width\":672,\"height\":1216,\"maxExportFrames\":0,\"exportMode\":\"all\",\"audioMode\":\"generate\",\"exportSourceImages\":false,\"exportPreFaceRefine\":false,\"refImageSize\":\"match\",\"continuityEnabled\":true,\"continuityOverlapFrames\":22,\"continuityMode\":\"guide\",\"continuityRedraw\":0.1,\"continuityKeepTail\":true},\"runSelectEnabled\":false,\"runSelection\":[],\"liveTaePreview\":true,\"segments\":[{\"id\":\"mtob7i5ayeq3l\",\"start\":0,\"length\":192,\"frameCount\":192,\"durationSec\":8,\"prompt\":\"subject_definitions:\\n<Picture 1> is the young woman who appears in this shot. Her face, hair, skin, makeup, dress and ornaments come only from <Picture 1>: keep them exactly as they are, do not add, remove, stylize or intensify any feature.\\n<Subject 2> is the room visible in <Picture 1>: keep the window position, wall texture, light direction and overall color temperature exactly as they are.\\n\\nsummary:\\nA single continuous vertical portrait. The woman stands still in the room, then lifts her eyes to the lens and speaks two short lines.\\n\\nretention_analysis:\\n<Picture 1>: fully_preserved - identity and styling untouched; only eyelids, breath, lips and a few loose strands move.\\n<Subject 2>: fully_preserved - no new furniture, no relighting, no color shift.\\n\\ndetailed_description:\\n[Shot 1] Vertical 9:16 portrait, medium close-up from the chest up, subject centered, tall window at frame left. Soft raking daylight falls across her cheek and collar; background wall in soft focus with visible plaster texture. Dust motes drift slowly through the light.\\n\\nShe holds still with lips together, breath barely lifting the collar. At 0.8 seconds she lifts her eyelids and finds the lens. At 1.6 seconds she begins to speak, mouth opening naturally on every syllable:\\n<d>[Chinese] 你终于来了。</d>\\nAt 3.0 seconds she pauses, swallows once, then speaks again a little softer:\\n<d>[Chinese] 这里的风，比我记得的冷。</d>\\nHer gaze stays on the lens the whole time; she blinks once right after the second line. Head movement is minimal, shoulders relaxed.\\n\\nCamera: locked-off, an extremely slow push-in of no more than five percent, focus held on her eyes, background never sharpens. No cuts, no handheld shake.\\n\\noverall_soundscape:\\nQuiet interior room tone, faint draft at the window frame, soft rustle of lace, close-mic voice at conversational level, no music, no footsteps.\\n\\nnon_diegetic_music: N/A\\n\",\"negativePrompt\":\"\",\"taskType\":\"\",\"refs\":[{\"index\":0,\"imageFile\":\"in-177346967f3348fea440c3d7123b9056.png\",\"fileName\":\"\",\"type\":\"input\",\"subfolder\":\"\"}],\"refAudios\":[],\"refVideos\":[],\"genImage\":{\"imageFile\":\"ComfyUI_00745_.png\",\"fileName\":\"\"},\"startImage\":null,\"endImage\":null,\"continuityFromPrev\":false,\"refImageSize\":\"match\",\"loras\":[]}],\"timelineMode\":\"prompt_batch\",\"width\":672,\"height\":1216,\"refMaxSize\":1216,\"gen\":{\"defaultFrameCount\":124},\"batchDetailMode\":\"solo\",\"batchWorkspaces\":{\"r2v\":{\"selectedIndex\":0,\"editMode\":\"segment\",\"runSelectEnabled\":false,\"runSelection\":[],\"segments\":[{\"id\":\"mtob7i5ayeq3l\",\"start\":0,\"length\":192,\"frameCount\":192,\"durationSec\":8,\"prompt\":\"subject_definitions:\\n<Picture 1> is the young woman who appears in this shot. Her face, hair, skin, makeup, dress and ornaments come only from <Picture 1>: keep them exactly as they are, do not add, remove, stylize or intensify any feature.\\n<Subject 2> is the room visible in <Picture 1>: keep the window position, wall texture, light direction and overall color temperature exactly as they are.\\n\\nsummary:\\nA single continuous vertical portrait. The woman stands still in the room, then lifts her eyes to the lens and speaks two short lines.\\n\\nretention_analysis:\\n<Picture 1>: fully_preserved - identity and styling untouched; only eyelids, breath, lips and a few loose strands move.\\n<Subject 2>: fully_preserved - no new furniture, no relighting, no color shift.\\n\\ndetailed_description:\\n[Shot 1] Vertical 9:16 portrait, medium close-up from the chest up, subject centered, tall window at frame left. Soft raking daylight falls across her cheek and collar; background wall in soft focus with visible plaster texture. Dust motes drift slowly through the light.\\n\\nShe holds still with lips together, breath barely lifting the collar. At 0.8 seconds she lifts her eyelids and finds the lens. At 1.6 seconds she begins to speak, mouth opening naturally on every syllable:\\n<d>[Chinese] 你终于来了。</d>\\nAt 3.0 seconds she pauses, swallows once, then speaks again a little softer:\\n<d>[Chinese] 这里的风，比我记得的冷。</d>\\nHer gaze stays on the lens the whole time; she blinks once right after the second line. Head movement is minimal, shoulders relaxed.\\n\\nCamera: locked-off, an extremely slow push-in of no more than five percent, focus held on her eyes, background never sharpens. No cuts, no handheld shake.\\n\\noverall_soundscape:\\nQuiet interior room tone, faint draft at the window frame, soft rustle of lace, close-mic voice at conversational level, no music, no footsteps.\\n\\nnon_diegetic_music: N/A\\n\",\"negativePrompt\":\"\",\"taskType\":\"\",\"refs\":[{\"index\":0,\"imageFile\":\"in-177346967f3348fea440c3d7123b9056.png\",\"fileName\":\"\",\"type\":\"input\",\"subfolder\":\"\"}],\"refAudios\":[],\"refVideos\":[],\"genImage\":{\"imageFile\":\"ComfyUI_00745_.png\",\"fileName\":\"\"},\"continuityFromPrev\":false,\"refImageSize\":\"match\",\"loras\":[],\"referenceVideo\":{\"videoFile\":\"\",\"fileName\":\"\",\"type\":\"input\",\"subfolder\":\"\"},\"_videoFrameCount\":192,\"previewFps\":24,\"previewLive\":true,\"previewStep\":2,\"previewTotalSteps\":2}],\"globalCommon\":{\"commonEnabled\":false,\"commonCollapsed\":false,\"prompt\":\"\",\"refs\":[],\"refAudios\":[],\"refVideos\":[]}},\"i2v\":{\"selectedIndex\":0,\"editMode\":\"segment\",\"runSelectEnabled\":false,\"runSelection\":[],\"segments\":[{\"id\":\"mu488j6wd3k0t\",\"start\":0,\"length\":124,\"frameCount\":124,\"durationSec\":5,\"prompt\":\"References：\\n<Picture 1> 作为首帧（0.00s 锚点）。\\n\\n\\n她保持静止，轻微呼吸起伏；中途缓慢眨一次眼； 结尾头部回到最初位置。嘴唇始终闭合。固定机位。\",\"negativePrompt\":\"\",\"taskType\":\"\",\"refs\":[],\"refAudios\":[],\"refVideos\":[],\"genImage\":{\"imageFile\":\"ComfyUI_00852_.png\",\"fileName\":\"\"},\"continuityFromPrev\":false,\"refImageSize\":\"match\",\"referenceVideo\":{\"videoFile\":\"\",\"fileName\":\"\",\"type\":\"input\",\"subfolder\":\"\"},\"_videoFrameCount\":124,\"previewFps\":24,\"previewLive\":true,\"previewStep\":8,\"previewTotalSteps\":8,\"loras\":[]}],\"globalCommon\":{\"commonEnabled\":false,\"commonCollapsed\":false,\"prompt\":\"\",\"refs\":[],\"refAudios\":[],\"refVideos\":[]}},\"t2v\":{\"selectedIndex\":0,\"editMode\":\"segment\",\"runSelectEnabled\":false,\"runSelection\":[],\"segments\":[{\"id\":\"mvri9pjwb8aw0\",\"start\":0,\"length\":124,\"frameCount\":124,\"durationSec\":5,\"prompt\":\"\",\"negativePrompt\":\"\",\"taskType\":\"\",\"refs\":[],\"refAudios\":[],\"refVideos\":[],\"genImage\":{\"imageFile\":\"\",\"fileName\":\"\"},\"previewFps\":24,\"frameRate\":24,\"refImageSize\":\"match\",\"_videoFrameCount\":124,\"loras\":[]}],\"globalCommon\":{\"commonEnabled\":false,\"commonCollapsed\":false,\"prompt\":\"\",\"refs\":[],\"refAudios\":[],\"refVideos\":[]}}},\"videoWorkspaces\":{\"rv2v\":{\"selectedIndex\":0,\"currentFrame\":0,\"editMode\":\"global\",\"runSelectEnabled\":false,\"runSelection\":[],\"totalFrames\":124,\"frameRate\":24,\"storageWidth\":1152,\"storageHeight\":32,\"segments\":[{\"id\":\"mu5gl3ameib4s\",\"start\":0,\"length\":124,\"prompt\":\"\",\"taskType\":\"\",\"refs\":[],\"referenceVideo\":{\"videoFile\":\"\",\"fileName\":\"\",\"type\":\"input\",\"subfolder\":\"\"},\"refImageSize\":\"match\",\"refAudios\":[],\"refVideos\":[],\"loras\":[]}],\"video\":{\"fileName\":\"\",\"videoFile\":\"\",\"subfolder\":\"\",\"type\":\"input\",\"frames\":[],\"frameMap\":[],\"deletedSourceRanges\":[],\"sourceFrameCount\":0,\"width\":0,\"height\":0,\"storageWidth\":1152,\"storageHeight\":32},\"videoClips\":[],\"globalCommon\":{\"commonEnabled\":false,\"commonCollapsed\":false,\"prompt\":\"References：\\n<Picture 1> 作为首帧（0.00s 锚点）。\\n\\nRetention：\\n保留图中女子的面部特征、白色与青绿相间的汉服、湿发贴颈的细节、水中揉搓的白色丝绸、溪流石头以及环境中斑驳的自然树影。人物在整段视频中保持环境占比，不放大成纯面部特写，面部稳定不漂移。\\n\\nScene：\\n夏日午后清澈溪边。阳光穿过树叶，在女子脸部、肩颈和白色衣袍上投下自然的斑驳光影。水面波光粼粼，反光偶尔扫过她的脸颊。整体自然低饱和，曝光平衡，高光柔和，没有夸张的体积光。\\n\\nTimeline（8秒，含景别切换）：\\n[0s-3s]（中景）镜头极缓慢推近。女子跪在溪边石头上，双手在水中揉搓白色丝绸。溪水缓缓流动，斑驳树影在她的背部与衣服上随树叶微动而轻轻位移，湿发贴在脖颈处。\\n[3s-6s]（特写）镜头平滑过渡至面部与手部特写。焦点落在她低垂的眼帘和滴水的发梢上，几滴水珠从她的脸颊和发丝滑落。双手在清澈的水中搓洗丝绸，水面泛着金色的碎光，真实自然的高光在绸缎上滚动。\\n[6s-8s]（中近景）镜头缓慢拉回并微微上摇。女子微微抬头，视线落向水面，发丝随风轻拂。水面荡开一圈圈涟漪，水汽在溪面若有若无地浮动，光影在她的衣袍上形成柔和的明暗过渡。\\n\\nCamera：\\n[Slow push in] 转 [Close-up] 转 [Slow pull out]。通过推拉实现景别切换，运镜平稳自然，不做剧烈晃动。\\n\\nAudio：\\n清澈的溪水潺潺声，丝绸在水中揉搓的轻柔水声，微风吹过树叶的沙沙声，远处隐约的鸟鸣。无对白，音量偏低。\\n\\nConstraints：\\n保持自然光线，不闪烁，不突变，不增强光效，不过曝。不出现体积光、镜头光晕、HDR或CG感。人物保持环境比例，不放大成头部特写，手部动作自然，不出现现代物品。\",\"refs\":[{\"index\":0,\"imageFile\":\"ComfyUI_00775_.png\",\"fileName\":\"\",\"type\":\"input\",\"subfolder\":\"\"}],\"refAudios\":[],\"refVideos\":[]}}},\"shots\":[{\"id\":\"mu488j6wd3k0t\",\"durationSec\":5,\"prompt\":\"5 秒，16:9，固定机位，近景头肩人像。\\n\\n影像风格：中长焦近景人像的大画幅质感，画面干净通透，暗部保留层次、不糊成死黑；浅景深，焦点稳定落在双眼与鼻梁，背景虚化为柔和暖褐色块；画面左侧大面积深暗留白与暗角保持原样，不得提亮或填充内容；曝光以面部为基准，发丝上的暖金色轮廓光高光柔和滚降、不发生闪烁或位移，皮肤通透自然、不做磨皮式光滑；暖褐琥珀色调、低饱和，肤色偏暖、阴影偏中性；全片布满细微而一致的胶片颗粒，运动模糊极轻微；整体节奏为观察式的、随呼吸起伏的，而非编排式的。\\n\\n镜头全程完全静止，无推拉摇移跟升降、无变焦、无手持晃动，构图、景别与人物在画面中的位置自始至终不变。\\n\\n这是一段可供循环使用的数字人底图镜头，要求面部始终完整可见、不被头发或手势遮挡，双唇全程闭合，五官位置稳定清晰。\\n\\n视线是全片的第一优先级：她的双眼必须自始至终直视镜头，瞳孔位置始终精确落在镜头所在的方向，目光稳定、专注、有交流感；头部有任何微小动作时，眼球都必须同步做反向补偿，让视线始终精确锁在镜头上，绝不跟着头一起偏出去。\\n\\n呼吸在整个 5 秒内连续进行，从第一帧到最后一帧始终在起伏，不存在静止的开头，也不存在停止呼吸的结尾。这是安静坐姿下的静息呼吸，气息极浅：胸口只有不到一毫米的极轻微向前扩张，胸腔与锁骨完全不向上抬起，双肩在整个过程中位置完全不动，不带任何耸肩、挺胸、叹气或深吸气的意味。头部只有约一度的、几乎察觉不到的左右微动，慢到近乎不可见，用于避免画面完全凝固。\\n\\n0.00–1.30 秒：吸气。胸口从起始位置极轻微地向前扩张，幅度不到一毫米；锁骨完全不上移，双肩不升起，颈部松弛，下颏不动；鼻翼随吸气极轻微扩张；脸侧碎发产生毫米级浮动。\\n\\n1.30–1.45 秒：吸气到顶的短暂过渡。\\n\\n1.45–2.59 秒：呼气。胸口那不到一毫米的扩张极缓慢地收回，鼻翼恢复；锁骨与双肩始终不动。头部以近乎不可察觉的速度微微偏转约一度，与此同时双眼保持直视镜头，眼球做极轻微的补偿，视线始终不离开镜头方向。\\n\\n2.59–3.88 秒：第二次吸气。胸口再次极轻微向前扩张，幅度与第一次相当；鼻翼极轻微扩张；碎发再次浮动。\\n\\n3.88–4.03 秒：吸气到顶的短暂过渡。\\n\\n4.03–5.17 秒：第二次呼气。胸口极缓慢地收回起始高度。头部以同等极慢的速度回正，在最后一帧正好回到正对镜头的起始角度，而运动本身仍在继续，画面不出现静止；碎发在最后几帧仍保有极轻微的浮动。\\n\\n她的面部始终平静而专注，眉毛放松不上挑，双唇维持起始的自然闭合状态、下颌放松不咬紧。全片不眨眼：眼睑维持自然睁开，不出现闭合或半闭合动作，仅保留极轻的生理性眼颤。\\n\\n声音：极安静的室内底噪，近乎无声；呼吸气息极轻，几乎听不见，音量压在环境底噪之下。无配乐。\\n\\n画面中不得出现第二个人物、眼神游离、视线偏移、看向画面外、眼球大幅转动、斜视、翻白眼、耸肩、抬肩、挺胸、叹气、深吸气、张口呼吸、点头、抬头、低头、头部大幅转动或甩头、说话或口型动作、眨眼、眯眼、面部变形、五官漂移、头发遮挡面部、镜头位移、字幕或任何可读文字。\",\"negativePrompt\":\"bad video\",\"startImage\":{\"imageFile\":\"ComfyUI_00852_.png\",\"width\":1920,\"height\":1080},\"endImage\":{\"imageFile\":\"ComfyUI_00852_.png\",\"width\":1920,\"height\":1080},\"continuityFromPrev\":false}],\"keyframes\":[{\"id\":\"mu488j6wd3k0t_s\",\"imageFile\":\"ComfyUI_00852_.png\",\"width\":1920,\"height\":1080,\"start\":0,\"length\":62,\"frameCount\":62,\"durationSec\":5,\"prompt\":\"5 秒，16:9，固定机位，近景头肩人像。\\n\\n影像风格：中长焦近景人像的大画幅质感，画面干净通透，暗部保留层次、不糊成死黑；浅景深，焦点稳定落在双眼与鼻梁，背景虚化为柔和暖褐色块；画面左侧大面积深暗留白与暗角保持原样，不得提亮或填充内容；曝光以面部为基准，发丝上的暖金色轮廓光高光柔和滚降、不发生闪烁或位移，皮肤通透自然、不做磨皮式光滑；暖褐琥珀色调、低饱和，肤色偏暖、阴影偏中性；全片布满细微而一致的胶片颗粒，运动模糊极轻微；整体节奏为观察式的、随呼吸起伏的，而非编排式的。\\n\\n镜头全程完全静止，无推拉摇移跟升降、无变焦、无手持晃动，构图、景别与人物在画面中的位置自始至终不变。\\n\\n这是一段可供循环使用的数字人底图镜头，要求面部始终完整可见、不被头发或手势遮挡，双唇全程闭合，五官位置稳定清晰。\\n\\n视线是全片的第一优先级：她的双眼必须自始至终直视镜头，瞳孔位置始终精确落在镜头所在的方向，目光稳定、专注、有交流感；头部有任何微小动作时，眼球都必须同步做反向补偿，让视线始终精确锁在镜头上，绝不跟着头一起偏出去。\\n\\n呼吸在整个 5 秒内连续进行，从第一帧到最后一帧始终在起伏，不存在静止的开头，也不存在停止呼吸的结尾。这是安静坐姿下的静息呼吸，气息极浅：胸口只有不到一毫米的极轻微向前扩张，胸腔与锁骨完全不向上抬起，双肩在整个过程中位置完全不动，不带任何耸肩、挺胸、叹气或深吸气的意味。头部只有约一度的、几乎察觉不到的左右微动，慢到近乎不可见，用于避免画面完全凝固。\\n\\n0.00–1.30 秒：吸气。胸口从起始位置极轻微地向前扩张，幅度不到一毫米；锁骨完全不上移，双肩不升起，颈部松弛，下颏不动；鼻翼随吸气极轻微扩张；脸侧碎发产生毫米级浮动。\\n\\n1.30–1.45 秒：吸气到顶的短暂过渡。\\n\\n1.45–2.59 秒：呼气。胸口那不到一毫米的扩张极缓慢地收回，鼻翼恢复；锁骨与双肩始终不动。头部以近乎不可察觉的速度微微偏转约一度，与此同时双眼保持直视镜头，眼球做极轻微的补偿，视线始终不离开镜头方向。\\n\\n2.59–3.88 秒：第二次吸气。胸口再次极轻微向前扩张，幅度与第一次相当；鼻翼极轻微扩张；碎发再次浮动。\\n\\n3.88–4.03 秒：吸气到顶的短暂过渡。\\n\\n4.03–5.17 秒：第二次呼气。胸口极缓慢地收回起始高度。头部以同等极慢的速度回正，在最后一帧正好回到正对镜头的起始角度，而运动本身仍在继续，画面不出现静止；碎发在最后几帧仍保有极轻微的浮动。\\n\\n她的面部始终平静而专注，眉毛放松不上挑，双唇维持起始的自然闭合状态、下颌放松不咬紧。全片不眨眼：眼睑维持自然睁开，不出现闭合或半闭合动作，仅保留极轻的生理性眼颤。\\n\\n声音：极安静的室内底噪，近乎无声；呼吸气息极轻，几乎听不见，音量压在环境底噪之下。无配乐。\\n\\n画面中不得出现第二个人物、眼神游离、视线偏移、看向画面外、眼球大幅转动、斜视、翻白眼、耸肩、抬肩、挺胸、叹气、深吸气、张口呼吸、点头、抬头、低头、头部大幅转动或甩头、说话或口型动作、眨眼、眯眼、面部变形、五官漂移、头发遮挡面部、镜头位移、字幕或任何可读文字。\",\"negativePrompt\":\"bad video\",\"isStartFrame\":true,\"isEndFrame\":false},{\"id\":\"mu488j6wd3k0t_e\",\"imageFile\":\"ComfyUI_00852_.png\",\"width\":1920,\"height\":1080,\"start\":62,\"length\":62,\"frameCount\":62,\"durationSec\":5,\"prompt\":\"\",\"negativePrompt\":\"bad video\",\"isStartFrame\":false,\"isEndFrame\":true}],\"durationSec\":5}",
+   "bd_grp_advanced": "高级采样",
+   "steps": 8,
+   "sampler": "res_multistep",
+   "scheduler": "simple",
+   "shift_video": 12.0,
+   "shift_audio": 3.0,
+   "export_source_images": false,
+   "export_pre_face_refine": false,
+   "bd_grp_perf": false,
+   "clear_vram_between_segments": true,
+   "clear_vram_before_refine": false,
+   "clear_vram_before_face_refine": false,
+   "cache_frames_codec": "",
+   "cache_name": "",
+   "minimax_director_ui": "",
+   "model": [
+    "16",
+    0
+   ],
+   "video_vae": [
+    "3",
+    0
+   ],
+   "audio_vae": [
+    "4",
+    0
+   ],
+   "clip": [
+    "2",
+    0
+   ],
+   "selflift": [
+    "30",
+    0
+   ]
+  },
+  "class_type": "ComfyMiniMaxH3Director",
+  "_meta": {
+   "title": "MiniMaxH3Director"
+  }
+ },
+ "21": {
+  "inputs": {
+   "lora_name": "minimax_h3_turbo_v4_step600_ema_comfyui.safetensors",
+   "strength_model": 1.0,
+   "model": [
+    "1",
+    0
+   ]
+  },
+  "class_type": "LoraLoaderModelOnly",
+  "_meta": {
+   "title": "LoRA加载器(仅模型)"
+  }
+ },
+ "25": {
+  "inputs": {
+   "lora_name": "MysticXXX_MMH3-V1.safetensors",
+   "strength_model": 0.5,
+   "model": [
+    "21",
+    0
+   ]
+  },
+  "class_type": "LoraLoaderModelOnly",
+  "_meta": {
+   "title": "LoRA加载器(仅模型)"
+  }
+ },
+ "26": {
+  "inputs": {
+   "lora_name": "minimax20H3E79C9FE5AE9EE794B5.K7KT.safetensors",
+   "strength_model": 0.5,
+   "model": [
+    "25",
+    0
+   ]
+  },
+  "class_type": "LoraLoaderModelOnly",
+  "_meta": {
+   "title": "LoRA加载器(仅模型)"
+  }
+ },
+ "30": {
+  "inputs": {
+   "bd_grp_selflift_sample": "渐进采样",
+   "split_mode": "highres_steps",
+   "highres_steps": 2,
+   "transition_step": 6,
+   "lowres_scale": 0.5,
+   "sampler_mode": "euler",
+   "native_low_carry": true,
+   "bd_grp_selflift_lift": "提升 / 3D",
+   "latent_upscale_model": "minimax_h3_latent_upscaler_3d_fp16.safetensors",
+   "latent_upsample": "bilinear",
+   "rho": 0.0,
+   "w_min": 0.5,
+   "w_max": 1.0,
+   "enable_latent_chunking": false,
+   "bd_grp_selflift_tile": "高清分块",
+   "enable_tiling": false,
+   "tile_count": 2,
+   "tile_overlap": 128
+  },
+  "class_type": "MiniMaxH3DirectorSelfLift",
+  "_meta": {
+   "title": "MiniMax H3 Director SelfLift"
+  }
+ },
+ "34": {
+  "inputs": {
+   "frame_rate": 24.0,
+   "loop_count": 0,
+   "filename_prefix": "YZ_H3_一采",
+   "format": "video/h264-mp4",
+   "pix_fmt": "yuv420p",
+   "crf": 19,
+   "save_metadata": true,
+   "trim_to_audio": false,
+   "pingpong": false,
+   "save_output": true,
+   "images": [
+    "18",
+    6
+   ],
+   "audio": [
+    "18",
+    1
+   ]
+  },
+  "class_type": "VHS_VideoCombine",
+  "_meta": {
+   "title": "合并为视频"
+  }
+ }
+}

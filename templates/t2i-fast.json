@@ -1,0 +1,125 @@
+{
+ "1": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "Qwen-Image-2.1-viggle-turbo-v0.3-6step-int8_convrot.safetensors",
+   "weight_dtype": "default"
+  }
+ },
+ "2": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen3vl_8b_bf16.safetensors",
+   "type": "qwen_image"
+  }
+ },
+ "3": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+  }
+ },
+ "4": {
+  "class_type": "TextEncodeQwenImage21",
+  "inputs": {
+   "clip": [
+    "2",
+    0
+   ],
+   "prompt": "The image is a wide realistic photograph of a soaking wet capybara taking shelter under a large banana leaf in a rainy jungle, the background a lush green canopy with misty droplets hanging from leaves and blurred foliage in the distance. In the foreground, the capybara’s thick, dark brown fur is saturated with water, clinging to its rounded body as it crouches low beneath the broad, curved edge of the banana leaf, which arches protectively over its back and shoulders. Its small, dark eyes are half-lidded and alert, glistening with rain, and its rounded ears are pressed back against its head, damp and slightly matted. The capybara’s front paws are tucked beneath its chest, and its short, stubby tail drags slightly on the wet earth. The ground beneath is a mix of dark, saturated soil and scattered fallen leaves, slick with rain, with a few shallow puddles reflecting the dim, diffused light filtering through the canopy. The banana leaf itself is large and slightly curled at the edges, its surface glistening with raindrops that bead and roll off its waxy underside, casting faint shadows on the capybara’s back. Behind the capybara, the jungle recedes into a soft-focus tapestry of emerald and mossy greens, with occasional flashes of bright yellow from flowering vines and the occasional glimpse of a tree trunk or vine-covered branch. The lighting is soft, diffused daylight filtered through the dense canopy, casting gentle shadows and highlighting the wet sheen on the capybara’s fur and the leaf’s surface. The overall composition feels intimate and tranquil, emphasizing the capybara’s quiet resilience in the humid, rain-soaked jungle environment.",
+   "negative_prompt": "",
+   "resolution": 1024
+  }
+ },
+ "5": {
+  "class_type": "EmptyLatentImage",
+  "inputs": {
+   "width": 1760,
+   "height": 1184,
+   "batch_size": 1
+  }
+ },
+ "10": {
+  "class_type": "BasicGuider",
+  "inputs": {
+   "model": [
+    "1",
+    0
+   ],
+   "conditioning": [
+    "4",
+    0
+   ]
+  }
+ },
+ "11": {
+  "class_type": "ViggleTurboSigmas",
+  "inputs": {
+   "latent": [
+    "5",
+    0
+   ],
+   "nodes": "1.0, 0.9375, 0.875, 0.75, 0.5, 0.25"
+  }
+ },
+ "12": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "euler"
+  }
+ },
+ "13": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 0
+  }
+ },
+ "14": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "13",
+    0
+   ],
+   "guider": [
+    "10",
+    0
+   ],
+   "sampler": [
+    "12",
+    0
+   ],
+   "sigmas": [
+    "11",
+    0
+   ],
+   "latent_image": [
+    "5",
+    0
+   ]
+  }
+ },
+ "15": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "14",
+    0
+   ],
+   "vae": [
+    "3",
+    0
+   ]
+  }
+ },
+ "16": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "15",
+    0
+   ],
+   "filename_prefix": "SAME_merged6"
+  }
+ }
+}

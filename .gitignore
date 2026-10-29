@@ -1,0 +1,8 @@
+﻿node_modules/
+*.log
+.DS_Store
+Thumbs.db
+docs/*.mp4
+docs/*.webm
+*.tsbuildinfo
+.sync-backup/

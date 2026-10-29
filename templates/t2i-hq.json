@@ -1,0 +1,136 @@
+{
+ "1": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "qwen_image_2.1_bf16.safetensors",
+   "weight_dtype": "default"
+  }
+ },
+ "2": {
+  "class_type": "ViggleTurboLora",
+  "inputs": {
+   "model": [
+    "1",
+    0
+   ],
+   "lora_name": "qwen21\\Qwen-Image-2.1-viggle-turbo-v0.3-6step-lora-r128.safetensors",
+   "strength": 1.0
+  }
+ },
+ "3": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen3vl_8b_bf16.safetensors",
+   "type": "qwen_image"
+  }
+ },
+ "4": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+  }
+ },
+ "5": {
+  "class_type": "TextEncodeQwenImage21",
+  "inputs": {
+   "clip": [
+    "3",
+    0
+   ],
+   "prompt": "The image is a wide cinematic photograph of the west gate of a Chinese university on freshman registration day in late August, shot from the street in hard midday sun. The gate is a traditional three-bay gatehouse: a long grey tiled hip roof with upturned eaves, a band of grey brick below it, three deep red timber doorways with brass studs and a central pair of doors standing open, and two carved stone lions on low plinths flanking the steps. Above the central bay hangs a horizontal lacquered plaque, deep blue with four large gold characters reading \"京都大学\", evenly spaced and cleanly rendered. On each side of the gatehouse a grey brick wall runs out to the edges of the frame, its top capped with grey tile, half hidden under the overhanging branches of old trees.\n\nIn the foreground across the bottom of the frame, a dense crowd of new students and parents moves toward the gate: young people in t-shirts with backpacks and rolling suitcases, one family group posing for a photograph, two volunteers in red vests holding a signboard, a security guard with a radio. The crowd is deep, layered from the bottom edge back to the gate steps, faces turned away or in profile, and a scatter of small red flags on poles rises above the heads.\n\nOn the right side of the frame, a temporary welcome arch of red fabric with white piping spans the entry lane, its banner carrying small indistinct lettering, and a row of blue-canopied registration tents stands behind it along the wall. On the left, a stone kerb and a strip of low hedge run to the corner, with a parked bicycle and a stack of water bottle crates.\n\nThe lighting is hard late-summer noon sun from high and slightly right, flattening the red of the gate and bleaching the pavement bone white; the crowd casts small black shadows straight down, the stone lions throw short dense shadows on the steps, and the air above the pavement shimmers with a faint visible heat haze.\n\nThe overall composition is symmetrical on the gatehouse and busy across the foreground, the red doorways reading as the strongest colour in a palette of grey tile, grey brick, deep vermilion, hot white pavement and dusty green foliage, carrying the loud, crowded, sweating excitement of a first day.",
+   "negative_prompt": "",
+   "resolution": 1024
+  }
+ },
+ "6": {
+  "class_type": "EmptyLatentImage",
+  "inputs": {
+   "width": 2560,
+   "height": 1440,
+   "batch_size": 1
+  }
+ },
+ "7": {
+  "class_type": "BasicGuider",
+  "inputs": {
+   "model": [
+    "2",
+    0
+   ],
+   "conditioning": [
+    "5",
+    0
+   ]
+  }
+ },
+ "8": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 77100201
+  }
+ },
+ "9": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "euler"
+  }
+ },
+ "10": {
+  "class_type": "ViggleTurboSigmas",
+  "inputs": {
+   "latent": [
+    "6",
+    0
+   ],
+   "nodes": "1.0, 0.9375, 0.875, 0.75, 0.5, 0.25"
+  }
+ },
+ "11": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "8",
+    0
+   ],
+   "guider": [
+    "7",
+    0
+   ],
+   "sampler": [
+    "9",
+    0
+   ],
+   "sigmas": [
+    "10",
+    0
+   ],
+   "latent_image": [
+    "6",
+    0
+   ]
+  }
+ },
+ "12": {
+  "class_type": "VAEDecode",
+  "inputs": {
+   "samples": [
+    "11",
+    0
+   ],
+   "vae": [
+    "4",
+    0
+   ]
+  }
+ },
+ "13": {
+  "class_type": "SaveImage",
+  "inputs": {
+   "images": [
+    "12",
+    0
+   ],
+   "filename_prefix": "avd/gate_master_turbo"
+  }
+ }
+}
