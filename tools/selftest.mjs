@@ -81,6 +81,36 @@ async function main() {
     pass.push(`内置模板 ok：${f}`);
   }
 
+  // 可选：真实冒烟（出图 → 超分 → 抽帧），需要 --smoke
+  if (process.argv.includes("--smoke")) {
+    const proj = await call("project.create", { name: "selftest-smoke" });
+    const pid = proj.project.id;
+    const gen = await call("gen.image", { projectId: pid, nodeId: "n1", prompt: "一只橘猫坐在木桌上", aspect: "1:1", resolution: "1K" });
+    let img = null;
+    for (let i = 0; i < 120; i++) {
+      await new Promise((r) => setTimeout(r, 2000));
+      const st = await call("job.get", { jobId: gen.jobId });
+      const j = st.job || {};
+      if (["done", "failed"].includes(j.status)) { img = j; break; }
+    }
+    if (img?.status === "done") pass.push(`冒烟：出图 ok ${img.asset?.file}`);
+    else fail.push(`冒烟：出图失败 ${img?.error || "超时"}`);
+
+    if (img?.asset) {
+      const up = await call("image.upscale", { projectId: pid, nodeId: "n1", file: img.asset.file });
+      let upj = null;
+      for (let i = 0; i < 120; i++) {
+        await new Promise((r) => setTimeout(r, 2000));
+        const st = await call("job.get", { jobId: up.jobId });
+        const j = st.job || {};
+        if (["done", "failed"].includes(j.status)) { upj = j; break; }
+      }
+      if (upj?.status === "done") pass.push(`冒烟：超分 ok ${upj.asset?.file}`);
+      else fail.push(`冒烟：超分失败 ${upj?.error || "超时"}`);
+    }
+    try { await call("project.delete", { id: pid }); } catch {}
+  }
+
   console.log("\n=== PASS (" + pass.length + ") ===");
   pass.forEach((p) => console.log("  ✓ " + p));
   console.log("\n=== FAIL (" + fail.length + ") ===");
