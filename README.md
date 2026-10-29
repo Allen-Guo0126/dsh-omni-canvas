@@ -1,76 +1,109 @@
-# dsh-comfy-canvas（M1）
+# dsh-comfy-canvas
 
-DSH 右侧面板里的无限画布，**直连本地 ComfyUI**（默认 `http://127.0.0.1:8188`）。
+DSH Desktop 右侧面板里的**无限画布**，直接驱动本地 **ComfyUI**（默认 `http://127.0.0.1:8188`），不做云端上传。
 
-- 一个画布 = 一个项目（可新建 / 切换 / 重命名 / 删除）
-- 底部输入条：提示词 + 模型 + 画幅 + 张数，`Enter` 生成
-- 产物写入节点，并**永久归档到项目资产库**（`assets/index.json`）
-- 顶部状态点：绿=ComfyUI 连通 / 红=未连接
+一个画布 = 一个项目。AI 和人都能操作同一个画布：图片 / 视频 / 文本 / 音频节点、分镜脚本卡、资产库。
 
-## 现在支持（M1）
+## 功能
 
-| 能力 | 模型 | 说明 |
-|---|---|---|
-| 文生图（加速） | `qwen-t2i-fast` | Qwen-Image-2.1 viggle 6 步，约 6–9 秒 |
-| 文生图（高清） | `qwen-t2i-hq` | bf16 + viggle LoRA，约 12–20 秒 |
+| 能力 | 说明 |
+|---|---|
+| **图片** | 文生图（Qwen-Image 2.1）、图生图（参考图编辑） |
+| **视频** | 参考生视频 / 文生视频（MiniMax H3，AV 模型自带声音） |
+| **文本节点** | 剧本 / 设定，可编辑，双击进入编辑 |
+| **音频节点** | 承载与播放（音乐生成尚未接入） |
+| **分镜脚本卡** | 场 → 镜头两层，一键批量出片，按脚本顺序拼接 |
+| **资产库** | 所有产物永久归档，跨项目浏览，按角色 / 场景 / 道具分类 |
+| **设置页自检** | 自动发现本地 ComfyUI、一键启动、扫描工作流、能力 → 实现对应关系 |
+| **工作流绑定** | 把你自己的 ComfyUI 工作流接成插件实现（由 Agent 完成参数绑定） |
 
-M2 加：视频（H3 导演台参考生视频）、队列、取消、重试。
+## 环境要求
 
-## 安装 / 更新
+- DSH Desktop（宿主 + 客户端插件）
+- 本地 ComfyUI（已启动，或允许插件启动）
+- 对应模型：Qwen-Image 2.1（图片）、MiniMax H3（视频）
+- ffmpeg（视频拼接，可选）
+
+## 安装
+
+以 DSH profile 依赖方式加载：
 
 ```powershell
-# 1. 同步到 profile
-powershell -ExecutionPolicy Bypass -File E:\Allen\plugins\dsh-comfy-canvas\sync.ps1
-
-# 2. 重启 DSH（右侧面板出现「画布」tab）
+# 在 DSH profile 目录执行
+pnpm add "file:E:\path\to\dsh-comfy-canvas"
 ```
 
-首次安装还要在 `C:\Users\Administrator\.dsh\profiles\desktop\package.json` 的
-`dsh.profile.bundles` 里加入 `@local/dsh-comfy-canvas`（已加过则无需重复）。
+或把本仓库软链到 profile 的 `node_modules/@local/dsh-comfy-canvas`。
+
+安装后**重启 DSH**；后续纯客户端改动只需刷新页面（F5）。
+
+## 快速开始
+
+1. 打开右侧「画布」标签 → 新建项目
+2. 双击空白处，或点底部 `＋ 添加`
+3. 选图片 / 视频 / 文本 / 脚本节点，写提示词，`Enter` 生成
+4. 产物落进节点，同时进资产库
+
+## 能力与实现
+
+插件按「能力 → 实现」解析，默认实现是**插件自带模板**：
+
+```
+文生图      → 插件自带 · 文生图（快速 / 高清）
+图生图      → 插件自带 · 图生图
+参考生视频  → 插件自带 · 参考生视频（H3）
+文生视频    → 插件自带 · 文生视频（H3）
+```
+
+也可以把**自己的 ComfyUI 工作流**接成实现：设置页扫描到工作流 → 点「设为默认」→ 复制指令发给 Agent → Agent 分析节点、绑定参数、试跑验证。
+
+工具集（27 个）包括：
+
+```
+cnv_generate_image / cnv_generate_video / cnv_generate_node
+cnv_workflow_inspect / cnv_binding_save / cnv_binding_list / cnv_binding_test / cnv_binding_run
+cnv_script_create / cnv_script_set_rows / cnv_script_generate
+cnv_canvas_get / cnv_canvas_add_node / cnv_canvas_link / ...
+```
+
+## 工作流绑定（Agent 侧）
+
+仓库内含技能：`skills/comfy-workflow-binding/SKILL.md`，安装到 DSH 技能目录后，Agent 可以：
+
+1. 读工作流节点表（UI 或 API 格式）
+2. 推断 prompt / seed / 尺寸 / 参考图 / 输出节点的位置
+3. 校验后写入 `~/.dsh/comfy-canvas.bindings.json`
+4. `dry` 转换检查 → 真跑一次 → 标记已验证
+
+> 已知限制：`ComfyMiniMaxH3Director` 这类节点的绘制参数在 `timeline_data` 私有 schema 里，
+> 只绑 widget 不生效（实测：控件改了，输出尺寸/内容不变）。
+> 视频能力建议走插件自带模板；参数简单的工作流（图片 / Wan 等）绑定可靠。
 
 ## 目录结构
 
 ```
-~/.dsh/projects/<项目id>/
-├── project.json          名称、时间
-├── canvas.json           节点 / 连线 / 视口
-├── media/                生成产物
-└── assets/index.json     资产库索引（永久保留）
+lib/index.js         宿主：项目存储、ComfyUI 调用、27 个工具、HTTP API
+lib/client.js        客户端：画布 / 首页 / 项目 / 资产 / 设置
+templates/*.json     API 格式工作流模板（内置实现）
+skills/              随插件分发的技能
+docs/                设计文档、实测记录、界面截图
 ```
 
-## 数据流
+## 数据位置
 
 ```
-画布 UI ──POST /comfy-canvas/api/gen.image──▶ 宿主插件
-                                              ├─ 读 templates/t2i-*.json
-                                              ├─ 打补丁（prompt/尺寸/种子）
-                                              ├─ POST /prompt ─▶ ComfyUI 8188
-                                              ├─ 轮询 /history/{id}
-                                              ├─ GET /view 下载图片
-                                              └─ 写 media/ + assets/index.json + 节点状态
-画布 UI ◀──GET /comfy-canvas/api/job.get───┘
+项目     ~/.dsh/projects/<id>/{project.json,canvas.json,media/,assets/}
+设置     ~/.dsh/comfy-canvas.settings.json
+绑定     ~/.dsh/comfy-canvas.bindings.json
 ```
 
-## 模板
+## 已知问题
 
-`templates/t2i-fast.json`、`templates/t2i-hq.json`、`templates/edit.json`、`templates/h3-r2v.json`
-（API 格式工作流，来自本机实测可用的图）。
+- 外部 H3 工作流的参数绑定暂不生效（见上）
+- 含子图（subgraph）的工作流还不能执行
+- 音乐生成未接入
+- 内置模板的模型文件名是写死的，模型改名需要手动调整（自动适配待做）
 
-**模型文件名是与本机绑定的**——换机器若报 `value not in list`，改模板里的
-`UNETLoader.unet_name` / `CLIPLoader.clip_name` / `VAELoader.vae_name` 即可。
+## License
 
-## 内置工具（给对话里的 Agent 用）
-
-| 工具 | 作用 |
-|---|---|
-| `comfy_self_check` | 检查 ComfyUI 连通性、队列、可用模型 |
-| `comfy_generate_image` | 提交文生图任务，返回 jobId |
-| `comfy_job_status` | 查询任务状态与产物 |
-| `comfy_prompt_template` | 返回 H3 六段式骨架（t2v / r2v / i2v） |
-
-## 已知限制（M1）
-
-- 不支持撤销/重做（M2 之后）
-- 视频节点按钮占位不可用（M2）
-- 生成中不能取消（M2）
-- 单画布单 tab，项目切换代替多开
+MIT
