@@ -1,6 +1,6 @@
-# dsh-comfy-canvas
+# dsh-omni-canvas
 
-DSH Desktop 右侧面板里的**无限画布**，直接驱动本地 **ComfyUI**（默认 `http://127.0.0.1:8188`），不做云端上传。
+DSH Desktop 右侧面板里的**全能画布**（画布即工作台），直接驱动本地 **ComfyUI**（默认 `http://127.0.0.1:8188`），不做云端上传。
 
 一个画布 = 一个项目。AI 和人都能操作同一个画布：图片 / 视频 / 文本 / 音频节点、分镜脚本卡、资产库。
 
@@ -30,10 +30,10 @@ DSH Desktop 右侧面板里的**无限画布**，直接驱动本地 **ComfyUI**�
 
 ```powershell
 # 在 DSH profile 目录执行
-pnpm add "file:E:\path\to\dsh-comfy-canvas"
+pnpm add "file:E:\path\to\dsh-omni-canvas"
 ```
 
-或把本仓库软链到 profile 的 `node_modules/@local/dsh-comfy-canvas`。
+或把本仓库软链到 profile 的 `node_modules/@local/dsh-omni-canvas`。
 
 安装后**重启 DSH**；后续纯客户端改动只需刷新页面（F5）。
 

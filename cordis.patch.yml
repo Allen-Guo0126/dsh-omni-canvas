@@ -1,8 +1,8 @@
-# dsh-comfy-canvas bundle layer: inserts the plugin row.
-# Loaded by `dsh plugin --profile <name> add @local/dsh-comfy-canvas`.
+# dsh-omni-canvas bundle layer: inserts the plugin row.
+# Loaded by `dsh plugin --profile <name> add @local/dsh-omni-canvas`.
 - insert:
-    - id: dsh-comfy-canvas
-      name: '@local/dsh-comfy-canvas'
+    - id: dsh-omni-canvas
+      name: '@local/dsh-omni-canvas'
       config:
         comfyUrl: 'http://127.0.0.1:8188'
         projectsDir: ''

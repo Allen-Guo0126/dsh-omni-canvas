@@ -1,6 +1,6 @@
 # comfy-workflow-binding
 
-把一个本地 ComfyUI 工作流接入 dsh-comfy-canvas 插件，成为某个能力的实现，并**端到端验证能出图/出片**。
+把一个本地 ComfyUI 工作流接入 dsh-omni-canvas 插件，成为某个能力的实现，并**端到端验证能出图/出片**。
 
 ## 何时使用
 
