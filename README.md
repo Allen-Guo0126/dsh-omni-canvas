@@ -118,6 +118,15 @@ docs/                设计文档、绑定机制、实测记录
 导出     ~/.dsh/exports/omni-<项目id>-<日期>.zip
 ```
 
+## 依赖一键准备
+
+`powershell
+node tools/setup.mjs            # 只检查
+node tools/setup.mjs --ffmpeg   # 缺则下载 ffmpeg 到工具的 bin 目录
+node tools/setup.mjs --tts      # pip install edge-tts
+node tools/setup.mjs --all      # 全部
+`
+
 ## 自测
 
 ```powershell
