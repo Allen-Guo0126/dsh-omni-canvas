@@ -1,0 +1,90 @@
+{
+ "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors": {
+  "kind": "unet",
+  "subdir": "unet",
+  "size_gb": 19.53,
+  "role": "unet",
+  "repo": null,
+  "note": "混合版覆盖 t2v/i2v/r2v/fl2v；官方分立版只覆盖单模式"
+ },
+ "minimax_h3_ref2va_pruned_bf16.safetensors": {
+  "kind": "unet",
+  "subdir": "unet",
+  "size_gb": 37.46,
+  "role": "unet",
+  "repo": null,
+  "note": ""
+ },
+ "qwen3vl_32b_minimax_h3_int8_convrot.safetensors": {
+  "kind": "clip",
+  "subdir": "clip",
+  "size_gb": 25.28,
+  "role": "clip",
+  "repo": null,
+  "note": ""
+ },
+ "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors": {
+  "kind": "clip",
+  "subdir": "clip",
+  "size_gb": 14.61,
+  "role": "clip",
+  "repo": null,
+  "note": ""
+ },
+ "minimax_h3_audio_vae_fp32.safetensors": {
+  "kind": "vae",
+  "subdir": "vae",
+  "size_gb": 0.56,
+  "role": "vae",
+  "repo": null,
+  "note": ""
+ },
+ "minimax_h3_video_vae_fp16.safetensors": {
+  "kind": "vae",
+  "subdir": "vae",
+  "size_gb": 4.85,
+  "role": "vae",
+  "repo": null,
+  "note": ""
+ },
+ "H3-Licon-VBVR-I2V.safetensors": {
+  "kind": "lora",
+  "subdir": "loras",
+  "size_gb": 0.14,
+  "role": "style-lora",
+  "repo": null,
+  "note": ""
+ },
+ "MysticXXX_MMH3-V1.safetensors": {
+  "kind": "lora",
+  "subdir": "loras",
+  "size_gb": 0.56,
+  "role": "style-lora",
+  "repo": null,
+  "note": ""
+ },
+ "minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors": {
+  "kind": "lora",
+  "subdir": "loras",
+  "size_gb": 0.89,
+  "role": "accel-lora",
+  "repo": null,
+  "note": ""
+ },
+ "minimax_h3_turbo_v4_step600_ema_comfyui.safetensors": {
+  "kind": "lora",
+  "subdir": "loras",
+  "size_gb": 0.73,
+  "role": "accel-lora",
+  "repo": null,
+  "note": ""
+ },
+ "qwen21\\Qwen-Image-2.1-viggle-turbo-v0.3-6step-lora-r128.safetensors": {
+  "kind": "lora",
+  "subdir": "loras",
+  "size_gb": 0.63,
+  "role": "accel-lora",
+  "repo": null,
+  "note": ""
+ }
+}
