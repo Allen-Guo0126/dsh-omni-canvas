@@ -1,0 +1,15 @@
+[
+ {
+  "name": "段01_12s_门口",
+  "file": "fixture_case28_seg01.txt",
+  "duration": 12,
+  "aspect": "9:16",
+  "resolution": "720P",
+  "images": [
+   "1_林昭.png",
+   "2_沈砚.png",
+   "3_书房.png",
+   "4_手帕.png"
+  ]
+ }
+]
