@@ -79,6 +79,22 @@ await check("进度事件单调递增且封顶 97", () => {
   assert.ok(Math.max(...seq) <= 97, `超过 97: ${seq}`);
 });
 
+await check("口播多段进度按段推进（不早冲到 97%）", () => {
+  const pid = "smoke-talk-" + Date.now();
+  core.PROMPT_META.set(pid, { segs: 3, order: ["31"] });
+  core.registerProgress(pid, { "31": { class_type: "KSampler", inputs: {} } });
+  const ends = [];
+  for (let seg = 0; seg < 3; seg += 1) {
+    for (const v of [0, 5, 10, 15, 20]) {
+      core.handleWsMessage({ type: "progress", data: { prompt_id: pid, node: "31", value: v, max: 20 } });
+    }
+    ends.push(core.progressOf(pid).percent);
+  }
+  assert.ok(ends[0] < 45, `第 1 段结束应 <45%，实际 ${ends[0]}%`);
+  assert.ok(ends[1] > ends[0] && ends[1] < 80, `第 2 段应递增且 <80%，实际 ${ends[1]}%`);
+  assert.ok(ends[2] > 90, `第 3 段应 >90%，实际 ${ends[2]}%`);
+});
+
 await check("lib 模块无「用而未 import」的常用内建", async () => {
   const { readFile: rf, readdir: rd } = await import("node:fs/promises");
   const { join: j } = await import("node:path");
