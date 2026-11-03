@@ -74,4 +74,27 @@ console.log("=== 客户端冒烟 ===");
 console.log("PASS  __ModuleLoader__.load 被调用");
 console.log("PASS  factory 可执行（require('react') 桩）");
 console.log("PASS  导出 apply / __CanvasApp");
+// 真正执行一次组件函数体（桩 hooks），验证渲染路径不会抛错
+let renderError = null;
+let tree = null;
+try {
+  const react2 = {
+    ...react,
+    useState: (init) => [typeof init === "function" ? init() : init, () => {}],
+    useEffect: () => {},
+    useRef: (v) => ({ current: v }),
+    useCallback: (fn) => fn,
+    useMemo: (fn) => fn(),
+    useContext: () => ({}),
+  };
+  tree = exportsObj.__CanvasApp();
+} catch (e) {
+  renderError = e;
+}
+if (renderError) {
+  console.log("FAIL  CanvasApp 执行      " + String(renderError.message).slice(0, 120));
+  process.exit(1);
+}
+console.log("PASS  CanvasApp 执行（桩 hooks）");
+
 console.log(`\nbundle 行数 ${code.split("\n").length}`);

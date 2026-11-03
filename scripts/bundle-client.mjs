@@ -21,7 +21,7 @@ const head = await read(join(SRC, "_head.txt"));
 const tail = await read(join(SRC, "_tail.txt"));
 const main = await read(join(HERE, "lib", "client-main.js"));
 
-const MODULES = ["styles.js"];
+const MODULES = ["helpers.js", "styles.js", "canvas-app.js"];
 
 let out = poller;
 out += head; // window.__ModuleLoader__.load({ id, factory: (require) => {
