@@ -176,6 +176,39 @@ async function testVideo() {
   }
 }
 
+// ---------- 6. 内置模板图片生成（runImageJob，未被绑定链路覆盖） ----------
+async function testBuiltinImage() {
+  const src = await pickSourceImage();
+  const job = {
+    id: "e2e-builtin-" + Date.now(),
+    projectId: src?.projectId || "",
+    nodeId: "",
+    prompt: "a red apple on a wooden table, soft window light",
+    model: "qwen-t2i-fast",
+    aspect: "1:1",
+    resolution: "1K",
+    count: 1,
+    seed: 20261103,
+    status: "queued",
+    startedAt: Date.now(),
+  };
+  const t0 = Date.now();
+  let peak = 0;
+  const timer = setInterval(() => {
+    if (job.promptId) peak = Math.max(peak, T.progressOf(job.promptId).percent || 0);
+  }, 500);
+  try {
+    await T.runImageJob({}, config, job);
+    clearInterval(timer);
+    if (job.status !== "done") throw new Error(String(job.error || "失败").slice(0, 160));
+    if (!job.asset?.file) throw new Error("没有产物");
+    log("PASS", "内置模板图片生成（runImageJob）", `${((Date.now() - t0) / 1000).toFixed(1)}s peak=${peak}%`);
+  } catch (e) {
+    clearInterval(timer);
+    log("FAIL", "内置模板图片生成", String(e?.message || e).slice(0, 160));
+  }
+}
+
 let done = false;
 function finish() {
   if (done) return;
@@ -188,5 +221,6 @@ testTalking();
 if (which === "all" || which === "upscale") await testUpscale();
 if (which === "all" || which === "t2i") await testT2I();
 if (which === "all" || which === "video") await testVideo();
+if (which === "all" || which === "builtin") await testBuiltinImage();
 testDispatch();
 setTimeout(finish, 60_000);

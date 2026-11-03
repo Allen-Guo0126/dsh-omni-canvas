@@ -58,6 +58,57 @@ check("dispose 可调用", () => {
   dispose();
 });
 
+// 真实调用注册进去的 API 路由：伪造 req/res，断言 200 + JSON
+let apiRoute = null;
+const routes2 = [];
+const ctx2 = {
+  tools: { register: () => () => {} },
+  effect: (fn) => { fn(); return () => {}; },
+  webServer: { register: (r) => { routes2.push(r); return () => {}; } },
+  on: () => () => {},
+  get: () => undefined,
+};
+mod.apply(ctx2, config);
+apiRoute = routes2.find((r) => String(r.path).includes("/omni-canvas/api"));
+
+async function callRoute(method, url, bodyText) {
+  const req = {
+    method,
+    url,
+    headers: { "content-type": "application/json" },
+    async *[Symbol.asyncIterator]() {
+      if (bodyText) yield Buffer.from(bodyText, "utf8");
+    },
+  };
+  let status = 0;
+  let payload = "";
+  const res = {
+    writeHead(code) { status = code; },
+    end(chunk) { payload += chunk ? String(chunk) : ""; },
+    setHeader() {},
+  };
+  await apiRoute.handler(req, res);
+  return { status, payload };
+}
+
+try {
+  const r1 = await callRoute("POST", "/omni-canvas/api/binding.list", "{}");
+  assert.equal(r1.status, 200, `binding.list 应为 200，实际 ${r1.status}`);
+  const j1 = JSON.parse(r1.payload);
+  assert.equal(j1.ok, true, "binding.list 应返回 ok:true");
+
+  const r2 = await callRoute("GET", "/omni-canvas/api/binding.list", "");
+  assert.equal(r2.status, 405, `GET 应为 405，实际 ${r2.status}`);
+
+  const r3 = await callRoute("POST", "/omni-canvas/api/not.exist", "{}");
+  assert.equal(r3.status, 404, `未知方法应为 404，实际 ${r3.status}`);
+
+  console.log("PASS  API 路由真实调用（POST 200 / GET 405 / 未知 404）");
+} catch (e) {
+  console.log("FAIL  API 路由真实调用      " + String(e.message).slice(0, 140));
+  process.exit(1);
+}
+
 const failed = results.filter((r) => r[0] === "FAIL").length;
 console.log("\n=== 启动冒烟 ===");
 for (const [st, name, err] of results) console.log(`${st.padEnd(5)} ${name.padEnd(24)} ${err}`);
