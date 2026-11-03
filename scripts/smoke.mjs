@@ -79,6 +79,31 @@ await check("进度事件单调递增且封顶 97", () => {
   assert.ok(Math.max(...seq) <= 97, `超过 97: ${seq}`);
 });
 
+await check("lib 模块无「用而未 import」的常用内建", async () => {
+  const { readFile: rf, readdir: rd } = await import("node:fs/promises");
+  const { join: j } = await import("node:path");
+  const symbols = ["readFile", "writeFile", "mkdir", "readdir", "stat", "rm", "rename", "copyFile",
+                   "join", "dirname", "homedir", "randomUUID", "createHash", "appendFile", "execFile"];
+  const libDir = new URL("../lib/", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
+  const files = ["index.js"];
+  for (const sub of ["core"]) {
+    for (const f of await rd(j(libDir, sub))) if (f.endsWith(".js")) files.push(`${sub}/${f}`);
+  }
+  const problems = [];
+  for (const f of files) {
+    const src = await rf(j(libDir, f), "utf8");
+    const importLines = src.split("\n")
+      .filter((l) => l.trim().startsWith("import ") || l.includes("await import(") || l.includes("require("))
+      .join("\n");
+    for (const sym of symbols) {
+      const used = new RegExp(`(^|[^\\w.$])${sym}\\(`).test(src) || new RegExp(`new ${sym}\\(`).test(src);
+      if (!used) continue;
+      if (!importLines.includes(sym) && !importLines.includes("*")) problems.push(`${f}: ${sym}`);
+    }
+  }
+  assert.equal(problems.length, 0, "缺少 import → " + problems.join(", "));
+});
+
 await check("绑定文件可读且默认值合法", async () => {
   const raw = await readFile(join(homedir(), ".dsh", "omni-canvas.bindings.json"), "utf8");
   const doc = JSON.parse(raw);
