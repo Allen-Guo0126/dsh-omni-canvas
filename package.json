@@ -82,6 +82,7 @@
     "smoke": "node scripts/smoke.mjs",
     "e2e": "node scripts/e2e.mjs",
     "verify": "node scripts/verify-host.mjs",
-    "routes": "node scripts/routes-smoke.mjs"
+    "routes": "node scripts/routes-smoke.mjs",
+    "boot": "node scripts/boot-smoke.mjs"
   }
 }
