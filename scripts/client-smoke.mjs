@@ -55,14 +55,37 @@ const noop = () => {};
 const react = {
   createElement: (type, props, ...children) => ({ type, props, children }),
   useState: (init) => [typeof init === "function" ? init() : init, noop],
-  useEffect: noop,
+  useEffect: (fn) => { try { fn(); } catch {} },
   useRef: (v) => ({ current: v }),
   useCallback: (fn) => fn,
   useMemo: (fn) => fn(),
   Fragment: "Fragment",
 };
+const effectErrors = [];
+const reactLive = {
+  createElement: react.createElement,
+  useState: (init) => [typeof init === "function" ? init() : init, () => {}],
+  useEffect: (fn) => {
+    try { fn(); } catch (e) { effectErrors.push(e); }
+  },
+  useRef: (v) => ({ current: v }),
+  useCallback: (fn) => fn,
+  useMemo: (fn) => fn(),
+  useContext: () => ({}),
+  Fragment: "Fragment",
+};
+// fetch 走真实宿主（43120），抓不到网就给 ok 桩
+let apiCalls = 0;
+sandbox.fetch = async (url, opts) => {
+  if (String(url).includes("/omni-canvas/api/")) apiCalls += 1;
+  try {
+    return await fetch(new URL(String(url), "http://127.0.0.1:43120").href, opts);
+  } catch {
+    return { json: async () => ({ ok: true, result: {} }) };
+  }
+};
 const requireStub = (name) => {
-  if (name === "react") return react;
+  if (name === "react") return reactLive;
   return {};
 };
 
@@ -81,7 +104,7 @@ try {
   const react2 = {
     ...react,
     useState: (init) => [typeof init === "function" ? init() : init, () => {}],
-    useEffect: () => {},
+    useEffect: (fn) => { try { fn(); } catch (e) { throw e; } },
     useRef: (v) => ({ current: v }),
     useCallback: (fn) => fn,
     useMemo: (fn) => fn(),
@@ -91,10 +114,44 @@ try {
 } catch (e) {
   renderError = e;
 }
-if (renderError) {
-  console.log("FAIL  CanvasApp 执行      " + String(renderError.message).slice(0, 120));
+const fatal = effectErrors.filter((e) => /is not defined|is not a function|Cannot access/i.test(String(e?.message)));
+if (renderError || fatal.length) {
+  for (const e of [renderError, ...fatal].filter(Boolean)) {
+    console.log("FAIL  CanvasApp 执行      " + String(e.message).slice(0, 140));
+  }
   process.exit(1);
 }
-console.log("PASS  CanvasApp 执行（桩 hooks）");
+for (const e of effectErrors) {
+  console.log("WARN  effect 内桩噪声        " + String(e.message).slice(0, 90));
+}
+console.log(`PASS  CanvasApp 执行（effects 已跑，api 调用 ${apiCalls} 次）`);
+
+// ---- 交互处理器自检：把树里所有函数 prop 都调一遍，只把 ReferenceError 类当失败 ----
+const handlerErrors = [];
+const HANDLER_RE = /^on[A-Z]/;
+function walk(el, depth = 0) {
+  if (!el || depth > 12) return;
+  if (Array.isArray(el)) { el.forEach((x) => walk(x, depth + 1)); return; }
+  if (typeof el !== "object") return;
+  const props = el.props || {};
+  for (const [k, v] of Object.entries(props)) {
+    if (HANDLER_RE.test(k) && typeof v === "function") {
+      try { v({ stopPropagation() {}, preventDefault() {}, target: { value: "" }, key: "" }); }
+      catch (e) {
+        if (/is not defined|is not a function|Cannot access/i.test(String(e?.message))) {
+          handlerErrors.push(`${k}: ${e.message}`);
+        }
+      }
+    }
+  }
+  walk(el.children, depth + 1);
+}
+walk(tree);
+if (handlerErrors.length) {
+  console.log("\nFAIL  事件处理器存在未定义引用：");
+  for (const e of [...new Set(handlerErrors)].slice(0, 10)) console.log("      " + e);
+  process.exit(1);
+}
+console.log("PASS  事件处理器自检（无未定义引用）");
 
 console.log(`\nbundle 行数 ${code.split("\n").length}`);
