@@ -76,5 +76,11 @@
   "dependencies": {
     "@xyflow/react": "^12.12.0",
     "esbuild": "^0.28.2"
+  },
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/client.js",
+    "smoke": "node scripts/smoke.mjs",
+    "e2e": "node scripts/e2e.mjs",
+    "verify": "node scripts/verify-host.mjs"
   }
 }
