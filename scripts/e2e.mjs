@@ -143,6 +143,39 @@ function testDispatch() {
   }
 }
 
+// ---------- 5. 视频（内置 H3 导演台，6 秒 t2v） ----------
+async function testVideo() {
+  const src = await pickSourceImage();
+  const job = {
+    id: "e2e-vid-" + Date.now(),
+    projectId: src?.projectId || "",
+    nodeId: "",
+    prompt: "A woman walks through bamboo forest at dawn, mist drifting, slow camera push-in",
+    mode: "t2v",
+    model: "h3-director",
+    duration: 6,
+    aspect: "16:9",
+    resolution: "480p",
+    status: "queued",
+    startedAt: Date.now(),
+  };
+  const t0 = Date.now();
+  let peak = 0;
+  const timer = setInterval(() => {
+    if (job.promptId) peak = Math.max(peak, T.progressOf(job.promptId).percent || 0);
+  }, 800);
+  try {
+    await T.runVideoJob({}, config, job);
+    clearInterval(timer);
+    if (job.status !== "done") throw new Error(String(job.error || "失败").slice(0, 160));
+    if (!job.asset?.file) throw new Error("没有产物");
+    log("PASS", "视频生成（内置 H3 导演台）", `${((Date.now() - t0) / 1000).toFixed(1)}s peak=${peak}%`);
+  } catch (e) {
+    clearInterval(timer);
+    log("FAIL", "视频生成", String(e?.message || e).slice(0, 160));
+  }
+}
+
 let done = false;
 function finish() {
   if (done) return;
@@ -154,5 +187,6 @@ function finish() {
 testTalking();
 if (which === "all" || which === "upscale") await testUpscale();
 if (which === "all" || which === "t2i") await testT2I();
+if (which === "all" || which === "video") await testVideo();
 testDispatch();
 setTimeout(finish, 60_000);
