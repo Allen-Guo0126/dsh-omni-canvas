@@ -78,7 +78,7 @@
     "esbuild": "^0.28.2"
   },
   "scripts": {
-    "check": "node --check lib/index.js && node scripts/check-all.mjs && node scripts/check-imports.mjs",
+    "check": "node --check lib/index.js && node scripts/check-all.mjs && node scripts/check-imports.mjs && node scripts/check-builtins.mjs",
     "smoke": "node scripts/smoke.mjs",
     "e2e": "node scripts/e2e.mjs",
     "verify": "node scripts/verify-host.mjs",
@@ -86,6 +86,8 @@
     "boot": "node scripts/boot-smoke.mjs",
     "build:client": "node scripts/bundle-client.mjs",
     "client": "node scripts/bundle-client.mjs && node scripts/client-smoke.mjs",
-    "imports": "node scripts/check-imports.mjs"
+    "imports": "node scripts/check-imports.mjs",
+    "routes:full": "node scripts/routes-full.mjs",
+    "builtins": "node scripts/check-builtins.mjs"
   }
 }
