@@ -1,0 +1,4 @@
+
+window.__ModuleLoader__.load({
+	id: "@local/dsh-omni-canvas",
+	factory: (require) => {
