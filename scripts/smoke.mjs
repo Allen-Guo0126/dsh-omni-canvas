@@ -120,6 +120,18 @@ await check("lib 模块无「用而未 import」的常用内建", async () => {
   assert.equal(problems.length, 0, "缺少 import → " + problems.join(", "));
 });
 
+await check("能力注册表：尺寸语义符合预期", async () => {
+  const { CAPS, sizeModeOf, isNativeSized, listCaps } = await import("../lib/caps/registry.js");
+  assert.ok(listCaps().length >= 6, "能力数量");
+  assert.equal(sizeModeOf("image-t2i"), "aspect");
+  assert.equal(sizeModeOf("image-upscale"), "native");
+  assert.equal(isNativeSized("image-upscale"), true);
+  assert.equal(isNativeSized("image-t2i"), false);
+  for (const [k, v] of Object.entries(CAPS)) {
+    assert.ok(v.kind && v.size && Array.isArray(v.params), `能力 ${k} 定义不完整`);
+  }
+});
+
 await check("绑定文件可读且默认值合法", async () => {
   const raw = await readFile(join(homedir(), ".dsh", "omni-canvas.bindings.json"), "utf8");
   const doc = JSON.parse(raw);
