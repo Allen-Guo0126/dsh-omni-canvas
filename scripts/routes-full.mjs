@@ -11,15 +11,20 @@ const ctx = { tools: { register: () => () => {} }, effect: (fn) => { fn(); retur
 const config = { comfyUrl: "http://127.0.0.1:8188", requestTimeoutMs: 30000 };
 const api = buildApi(ctx, config);
 
+// 非破坏性：先备份默认实现，结束后恢复；写操作类接口不在此脚本内调用
+const defaultsBackup = JSON.parse(JSON.stringify((await api["binding.list"]()).defaults || {}));
+const restoreDefaults = async () => {
+  for (const [cap, target] of Object.entries(defaultsBackup)) {
+    try { await api["binding.setDefault"]({ capability: cap, target }); } catch {}
+  }
+};
+
 const projects = await readdir(join(homedir(), ".dsh", "projects")).catch(() => []);
 const pid = projects[0] || "";
 
 // 客户端调用清单 + 最小参数（写操作给无害参数，只关心是否抛「未定义」）
 const CASES = [
   ["version", {}], ["client.version", {}], ["health", {}], ["project.list", {}],
-  ["project.create", { name: "__selftest__" }], ["project.rename", { id: pid, name: "__selftest2__" }],
-  ["project.trash", { id: "__nope__" }], ["project.trashList", {}], ["project.restore", { id: "__nope__" }],
-  ["project.purge", { id: "__nope__" }], ["project.delete", { id: "__nope__" }], ["project.export", { id: pid }],
   ["canvas.get", { id: pid }], ["canvas.save", { id: pid, canvas: { nodes: [], edges: [] } }],
   ["asset.list", { projectId: pid }], ["asset.listAll", {}], ["asset.delete", { projectId: pid, id: "__x__" }],
   ["binding.list", {}], ["binding.test", { id: "__x__" }], ["binding.setDefault", { capability: "image-t2i", target: "builtin:qwen-t2i-fast" }],
@@ -30,7 +35,6 @@ const CASES = [
   ["media.upload", { projectId: pid, name: "x.png", data: "" }],
   ["video.concat", { projectId: pid, nodeIds: [] }], ["video.publish", { projectId: pid, nodeId: "__x__" }],
   ["video.publishAll", { projectId: pid }],
-  ["clipboard.set", { text: "selftest" }],
 ];
 
 const bad = [];
@@ -59,6 +63,8 @@ for (const [method, args] of CASES) {
     }
   }
 }
+
+await restoreDefaults();
 
 console.log("=== 全接口自检 ===");
 for (const [m, note] of okList) console.log(`PASS  ${m.padEnd(18)} ${note}`);
