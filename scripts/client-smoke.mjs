@@ -74,15 +74,33 @@ const reactLive = {
   useContext: () => ({}),
   Fragment: "Fragment",
 };
-// fetch 走真实宿主（43120），抓不到网就给 ok 桩
+// ⚠️ fetch 必须只走桩：本脚本会"点"遍所有按钮，打真实宿主会真的建项目/提交任务
 let apiCalls = 0;
+const apiLog = [];
 sandbox.fetch = async (url, opts) => {
-  if (String(url).includes("/omni-canvas/api/")) apiCalls += 1;
-  try {
-    return await fetch(new URL(String(url), "http://127.0.0.1:43120").href, opts);
-  } catch {
-    return { json: async () => ({ ok: true, result: {} }) };
+  const path = String(url);
+  if (path.includes("/omni-canvas/api/")) {
+    apiCalls += 1;
+    const method = path.split("/omni-canvas/api/")[1] || "";
+    apiLog.push(method);
+    // 写操作一律不返回真实结果（防止组件继续发后续请求）
+    if (/^(project\.create|project\.delete|project\.purge|gen\.|image\.upscale|video\.|binding\.setDefault|canvas\.save|asset\.delete|clipboard\.set)/.test(method)) {
+      return { json: async () => ({ ok: false, error: "blocked-by-smoke" }) };
+    }
+    const canned = {
+      "project.list": { projects: [{ id: "smoke-proj", name: "smoke", createdAt: "2026-01-01T00:00:00Z" }] },
+      "binding.list": { bindings: [], defaults: {} },
+      "asset.list": { assets: [] },
+      "job.list": { running: null, queue: [] },
+      "env.check": { ok: true, items: [] },
+      "comfy.status": { ok: true },
+      "health": { ok: true },
+      "impl.list": { impls: [] },
+      "workflows.list": { workflows: [], scanned: 0 },
+    };
+    return { json: async () => ({ ok: true, result: canned[method] ?? {} }) };
   }
+  return { json: async () => ({ ok: true, result: {} }) };
 };
 const requireStub = (name) => {
   if (name === "react") return reactLive;
@@ -124,7 +142,7 @@ if (renderError || fatal.length) {
 for (const e of effectErrors) {
   console.log("WARN  effect 内桩噪声        " + String(e.message).slice(0, 90));
 }
-console.log(`PASS  CanvasApp 执行（effects 已跑，api 调用 ${apiCalls} 次）`);
+console.log(`PASS  CanvasApp 执行（effects 已跑，api 调用 ${apiCalls} 次，写操作已拦截）`);
 
 // ---- 交互处理器自检：把树里所有函数 prop 都调一遍，只把 ReferenceError 类当失败 ----
 const handlerErrors = [];
@@ -136,6 +154,9 @@ function walk(el, depth = 0) {
   const props = el.props || {};
   for (const [k, v] of Object.entries(props)) {
     if (HANDLER_RE.test(k) && typeof v === "function") {
+      const src = String(v);
+      // 跳过会创建项目/提交任务的处理器（computed 名字不可靠，按源码特征判断）
+      if (/project\.create|quickStart|newProject|gen\.image|gen\.video/.test(src)) continue;
       try { v({ stopPropagation() {}, preventDefault() {}, target: { value: "" }, key: "" }); }
       catch (e) {
         if (/is not defined|is not a function|Cannot access/i.test(String(e?.message))) {
