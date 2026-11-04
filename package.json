@@ -78,7 +78,7 @@
     "esbuild": "^0.28.2"
   },
   "scripts": {
-    "check": "node --check lib/index.js && node scripts/check-all.mjs && node scripts/check-imports.mjs && node scripts/check-builtins.mjs",
+    "check": "node --check lib/index.js && node scripts/check-all.mjs && node scripts/check-imports.mjs && node scripts/check-builtins.mjs && node scripts/prompt-lint-test.mjs && node scripts/prompt-normalize-test.mjs",
     "smoke": "node scripts/smoke.mjs",
     "e2e": "node scripts/e2e.mjs",
     "verify": "node scripts/verify-host.mjs",
@@ -88,6 +88,9 @@
     "client": "node scripts/bundle-client.mjs && node scripts/client-smoke.mjs",
     "imports": "node scripts/check-imports.mjs",
     "routes:full": "node scripts/routes-full.mjs",
-    "builtins": "node scripts/check-builtins.mjs"
+    "builtins": "node scripts/check-builtins.mjs",
+    "prompt:lint-test": "node scripts/prompt-lint-test.mjs",
+    "prompt:normalize-test": "node scripts/prompt-normalize-test.mjs",
+    "resolution:test": "node scripts/resolution-smoke.mjs"
   }
 }
