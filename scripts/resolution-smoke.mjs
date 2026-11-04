@@ -15,7 +15,7 @@ const ok = (m, c, extra = "") => {
 };
 
 // ① 尺寸表
-const cases = [["480p", [848, 480]], ["720p", [1152, 648]], ["900p", [1600, 900]], ["1080p", [1920, 1080]]];
+const cases = [["480p", [854, 480]], ["720p", [1280, 720]], ["900p", [1600, 900]], ["1080p", [1920, 1080]]];
 for (const [key, want] of cases) {
   const got = VIDEO_ASPECT_SIZE[`16:9_${key}`];
   ok(`16:9 ${key} = ${got ? got.join("×") : "缺失"}`, got && got[0] === want[0] && got[1] === want[1], `期望 ${want.join("×")}`);
