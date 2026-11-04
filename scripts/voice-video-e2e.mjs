@@ -28,6 +28,8 @@ for (const p of projects) {
 if (!voiceFile) { console.log("SKIP  没有找到 voice-*.wav（先跑 node scripts/voice-smoke.mjs）"); process.exit(0); }
 console.log(`用项目 ${projectId} 的音色样本 ${voiceFile}`);
 
+// 断言 0：参考图列表里绝不能出现音频文件（H3 会把 wav 当图片解码而失败）
+const badRefs = (j) => (j.refFiles || []).filter((f) => /\.(wav|mp3|m4a|flac)$/i.test(f));
 const job = {
   id: "voicectl-" + Date.now(),
   projectId, nodeId: "",
@@ -37,6 +39,8 @@ const job = {
 };
 
 let fail = 0;
+if (badRefs(job).length) { console.log("FAIL  参考图里混入了音频:", badRefs(job)); fail += 1; }
+else console.log("PASS  参考图不含音频文件");
 const t0 = Date.now();
 try {
   await T.runVideoJob({}, config, job);
