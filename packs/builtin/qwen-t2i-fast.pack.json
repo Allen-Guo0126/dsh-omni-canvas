@@ -1,0 +1,48 @@
+{
+  "schema": "omni-canvas.pack/1",
+  "id": "builtin:qwen-t2i-fast",
+  "name": "文生图 · Qwen-Image 2.1 加速",
+  "capability": "image-t2i",
+  "capabilities": [
+    "image-t2i"
+  ],
+  "source": "builtin",
+  "workflowTemplate": "qwen-t2i-fast",
+  "models": [
+    {
+      "file": "Qwen-Image-2.1-viggle-turbo-v0.3-6step-int8_convrot.safetensors",
+      "subPath": "",
+      "dir": "diffusion_models",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=Qwen-Image-2.1-viggle-turbo-v0.3-6step-int8_convrot"
+      }
+    },
+    {
+      "file": "qwen3vl_8b_bf16.safetensors",
+      "subPath": "",
+      "dir": "text_encoders",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=qwen3vl_8b_bf16"
+      }
+    },
+    {
+      "file": "qwen_image_2.1_vae_bf16.safetensors",
+      "subPath": "",
+      "dir": "vae",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=qwen_image_2.1_vae_bf16"
+      }
+    }
+  ],
+  "customNodes": [],
+  "notes": "出厂内置。模型需按 dir 放到 ComfyUI/models/<dir>/；有 source.url 时可一键下载。"
+}

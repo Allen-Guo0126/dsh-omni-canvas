@@ -1,0 +1,95 @@
+{
+  "schema": "omni-canvas.pack/1",
+  "id": "builtin:h3-director",
+  "name": "视频导演台 · MiniMax H3（文生/图生/参考生/首尾帧）",
+  "capability": "video-r2v",
+  "capabilities": [
+    "video-t2v",
+    "video-i2v",
+    "video-r2v",
+    "video-fl2v"
+  ],
+  "source": "builtin",
+  "workflowTemplate": "h3-director",
+  "models": [
+    {
+      "file": "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+      "subPath": "",
+      "dir": "unet",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=minimax_h3_hybrid_fl2va_ref2va_b25-49-int8"
+      }
+    },
+    {
+      "file": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "subPath": "",
+      "dir": "clip",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=qwen3vl_32b_minimax_h3_nvfp4_awq"
+      }
+    },
+    {
+      "file": "minimax_h3_video_vae_fp16.safetensors",
+      "subPath": "",
+      "dir": "vae",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=minimax_h3_video_vae_fp16"
+      }
+    },
+    {
+      "file": "minimax_h3_audio_vae_fp32.safetensors",
+      "subPath": "",
+      "dir": "vae",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=minimax_h3_audio_vae_fp32"
+      }
+    },
+    {
+      "file": "minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors",
+      "subPath": "",
+      "dir": "loras",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=minimax_h3_dmad_full_dareties_v4_step600_comfy_fro"
+      }
+    },
+    {
+      "file": "MysticXXX_MMH3-V1.safetensors",
+      "subPath": "",
+      "dir": "loras",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=MysticXXX_MMH3-V1"
+      }
+    },
+    {
+      "file": "H3-Licon-VBVR-I2V.safetensors",
+      "subPath": "",
+      "dir": "loras",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=H3-Licon-VBVR-I2V"
+      }
+    }
+  ],
+  "customNodes": [],
+  "notes": "出厂内置。模型需按 dir 放到 ComfyUI/models/<dir>/；有 source.url 时可一键下载。"
+}
