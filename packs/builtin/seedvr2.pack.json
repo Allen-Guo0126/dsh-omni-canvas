@@ -1,0 +1,1160 @@
+{
+  "schema": "omni-canvas.pack/1",
+  "id": "builtin:seedvr2",
+  "name": "高清放大 · SeedVR2 4K",
+  "capability": "image-upscale",
+  "capabilities": [
+    "image-upscale"
+  ],
+  "source": "builtin",
+  "workflow": {
+    "file": "seedvr2.json",
+    "json": {
+      "id": "6b3ad62d-9c80-436b-94c9-697f4f8761b9",
+      "revision": 0,
+      "last_node_id": 10,
+      "last_link_id": 9,
+      "nodes": [
+        {
+          "id": 1,
+          "type": "ImageScaleToTotalPixels",
+          "pos": [
+            3192.6399287163217,
+            -396.85572257702273
+          ],
+          "size": [
+            230,
+            106
+          ],
+          "flags": {
+            "disabled": false
+          },
+          "order": 5,
+          "mode": 0,
+          "inputs": [
+            {
+              "label": "图像",
+              "localized_name": "图像",
+              "name": "image",
+              "type": "IMAGE",
+              "link": 8
+            },
+            {
+              "label": "缩放方法",
+              "localized_name": "缩放算法",
+              "name": "upscale_method",
+              "type": "COMBO",
+              "widget": {
+                "name": "upscale_method"
+              },
+              "link": null
+            },
+            {
+              "label": "像素数量",
+              "localized_name": "像素数量",
+              "name": "megapixels",
+              "type": "FLOAT",
+              "widget": {
+                "name": "megapixels"
+              },
+              "link": null
+            },
+            {
+              "label": "resolution_steps",
+              "localized_name": "分辨率步数",
+              "name": "resolution_steps",
+              "type": "INT",
+              "widget": {
+                "name": "resolution_steps"
+              },
+              "link": null
+            }
+          ],
+          "outputs": [
+            {
+              "label": "图像",
+              "localized_name": "图像",
+              "name": "IMAGE",
+              "type": "IMAGE",
+              "links": [
+                2
+              ]
+            }
+          ],
+          "properties": {
+            "cnr_id": "comfy-core",
+            "ver": "0.3.62",
+            "Node name for S&R": "ImageScaleToTotalPixels",
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.3"
+            },
+            "widget_ue_connectable": {}
+          },
+          "widgets_values": [
+            "lanczos",
+            0.30000000000000004,
+            1
+          ],
+          "widgets_values_named": {
+            "upscale_method": "lanczos",
+            "megapixels": 0.30000000000000004,
+            "resolution_steps": 1
+          },
+          "color": "#223",
+          "bgcolor": "#335"
+        },
+        {
+          "id": 2,
+          "type": "SeedVR2LoadDiTModel",
+          "pos": [
+            3743.117027738661,
+            -387.522752466479
+          ],
+          "size": [
+            257.5630859375,
+            202
+          ],
+          "flags": {
+            "disabled": false
+          },
+          "order": 0,
+          "mode": 0,
+          "inputs": [
+            {
+              "label": "torch_compile_args",
+              "localized_name": "torch_compile_args",
+              "name": "torch_compile_args",
+              "shape": 7,
+              "type": "TORCH_COMPILE_ARGS",
+              "link": null
+            },
+            {
+              "label": "model",
+              "localized_name": "model",
+              "name": "model",
+              "type": "COMBO",
+              "widget": {
+                "name": "model"
+              },
+              "link": null
+            },
+            {
+              "label": "device",
+              "localized_name": "device",
+              "name": "device",
+              "type": "COMBO",
+              "widget": {
+                "name": "device"
+              },
+              "link": null
+            },
+            {
+              "label": "blocks_to_swap",
+              "localized_name": "blocks_to_swap",
+              "name": "blocks_to_swap",
+              "shape": 7,
+              "type": "INT",
+              "widget": {
+                "name": "blocks_to_swap"
+              },
+              "link": null
+            },
+            {
+              "label": "swap_io_components",
+              "localized_name": "swap_io_components",
+              "name": "swap_io_components",
+              "shape": 7,
+              "type": "BOOLEAN",
+              "widget": {
+                "name": "swap_io_components"
+              },
+              "link": null
+            },
+            {
+              "label": "offload_device",
+              "localized_name": "offload_device",
+              "name": "offload_device",
+              "shape": 7,
+              "type": "COMBO",
+              "widget": {
+                "name": "offload_device"
+              },
+              "link": null
+            },
+            {
+              "label": "cache_model",
+              "localized_name": "cache_model",
+              "name": "cache_model",
+              "shape": 7,
+              "type": "BOOLEAN",
+              "widget": {
+                "name": "cache_model"
+              },
+              "link": null
+            },
+            {
+              "label": "attention_mode",
+              "localized_name": "attention_mode",
+              "name": "attention_mode",
+              "shape": 7,
+              "type": "COMBO",
+              "widget": {
+                "name": "attention_mode"
+              },
+              "link": null
+            }
+          ],
+          "outputs": [
+            {
+              "label": "SEEDVR2_DIT",
+              "localized_name": "SEEDVR2_DIT",
+              "name": "SEEDVR2_DIT",
+              "type": "SEEDVR2_DIT",
+              "links": [
+                3
+              ]
+            }
+          ],
+          "properties": {
+            "cnr_id": "seedvr2_videoupscaler",
+            "ver": "912ab4a5da8bb3590c4659f8f19160a7bd88a656",
+            "Node name for S&R": "SeedVR2LoadDiTModel",
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.5.1"
+            },
+            "aux_id": "numz/ComfyUI-SeedVR2_VideoUpscaler",
+            "widget_ue_connectable": {
+              "attention_mode": true,
+              "swap_io_components": true,
+              "cache_model": true,
+              "offload_device": true,
+              "model": true,
+              "device": true,
+              "blocks_to_swap": true
+            },
+            "ttNbgOverride": {
+              "bgcolor": "#535",
+              "groupcolor": "#a1309b",
+              "color": "#323"
+            }
+          },
+          "widgets_values": [
+            "seedvr2_ema_7b-Q8_0.gguf",
+            "cuda:0",
+            32,
+            true,
+            "cpu",
+            "sdpa",
+            "sdpa"
+          ],
+          "widgets_values_named": {
+            "model": "seedvr2_ema_7b-Q8_0.gguf",
+            "device": "cuda:0",
+            "blocks_to_swap": 32,
+            "swap_io_components": true,
+            "offload_device": "cpu",
+            "cache_model": "sdpa",
+            "attention_mode": "sdpa"
+          },
+          "color": "#2a363b",
+          "bgcolor": "#3f5159"
+        },
+        {
+          "id": 4,
+          "type": "Note",
+          "pos": [
+            4070.1825235625133,
+            -308.9031145883285
+          ],
+          "size": [
+            302.8204345703125,
+            88
+          ],
+          "flags": {
+            "disabled": false
+          },
+          "order": 1,
+          "mode": 0,
+          "inputs": [],
+          "outputs": [],
+          "properties": {
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.4"
+            },
+            "widget_ue_connectable": {}
+          },
+          "widgets_values": [
+            "如果跳出显存不够就把“要交换的块”拉高"
+          ],
+          "widgets_values_named": {
+            "text": "如果跳出显存不够就把“要交换的块”拉高"
+          },
+          "color": "#ff1414",
+          "bgcolor": "#ff0000"
+        },
+        {
+          "id": 5,
+          "type": "SeedVR2VideoUpscaler",
+          "pos": [
+            4059.238853910535,
+            -148.50317544011185
+          ],
+          "size": [
+            343.1535339355469,
+            386
+          ],
+          "flags": {
+            "disabled": false
+          },
+          "order": 6,
+          "mode": 0,
+          "inputs": [
+            {
+              "label": "image",
+              "localized_name": "image",
+              "name": "image",
+              "type": "IMAGE",
+              "link": 2
+            },
+            {
+              "label": "dit",
+              "localized_name": "dit",
+              "name": "dit",
+              "type": "SEEDVR2_DIT",
+              "link": 3
+            },
+            {
+              "label": "vae",
+              "localized_name": "vae",
+              "name": "vae",
+              "type": "SEEDVR2_VAE",
+              "link": 4
+            },
+            {
+              "label": "seed",
+              "localized_name": "seed",
+              "name": "seed",
+              "type": "INT",
+              "widget": {
+                "name": "seed"
+              },
+              "link": null
+            },
+            {
+              "label": "resolution",
+              "localized_name": "resolution",
+              "name": "resolution",
+              "type": "INT",
+              "widget": {
+                "name": "resolution"
+              },
+              "link": 5
+            },
+            {
+              "label": "max_resolution",
+              "localized_name": "max_resolution",
+              "name": "max_resolution",
+              "type": "INT",
+              "widget": {
+                "name": "max_resolution"
+              },
+              "link": null
+            },
+            {
+              "label": "batch_size",
+              "localized_name": "batch_size",
+              "name": "batch_size",
+              "type": "INT",
+              "widget": {
+                "name": "batch_size"
+              },
+              "link": null
+            },
+            {
+              "label": "uniform_batch_size",
+              "localized_name": "uniform_batch_size",
+              "name": "uniform_batch_size",
+              "type": "BOOLEAN",
+              "widget": {
+                "name": "uniform_batch_size"
+              },
+              "link": null
+            },
+            {
+              "label": "color_correction",
+              "localized_name": "color_correction",
+              "name": "color_correction",
+              "type": "COMBO",
+              "widget": {
+                "name": "color_correction"
+              },
+              "link": null
+            },
+            {
+              "label": "temporal_overlap",
+              "localized_name": "temporal_overlap",
+              "name": "temporal_overlap",
+              "shape": 7,
+              "type": "INT",
+              "widget": {
+                "name": "temporal_overlap"
+              },
+              "link": null
+            },
+            {
+              "label": "prepend_frames",
+              "localized_name": "prepend_frames",
+              "name": "prepend_frames",
+              "shape": 7,
+              "type": "INT",
+              "widget": {
+                "name": "prepend_frames"
+              },
+              "link": null
+            },
+            {
+              "label": "input_noise_scale",
+              "localized_name": "input_noise_scale",
+              "name": "input_noise_scale",
+              "shape": 7,
+              "type": "FLOAT",
+              "widget": {
+                "name": "input_noise_scale"
+              },
+              "link": null
+            },
+            {
+              "label": "latent_noise_scale",
+              "localized_name": "latent_noise_scale",
+              "name": "latent_noise_scale",
+              "shape": 7,
+              "type": "FLOAT",
+              "widget": {
+                "name": "latent_noise_scale"
+              },
+              "link": null
+            },
+            {
+              "label": "offload_device",
+              "localized_name": "offload_device",
+              "name": "offload_device",
+              "shape": 7,
+              "type": "COMBO",
+              "widget": {
+                "name": "offload_device"
+              },
+              "link": null
+            },
+            {
+              "label": "enable_debug",
+              "localized_name": "enable_debug",
+              "name": "enable_debug",
+              "shape": 7,
+              "type": "BOOLEAN",
+              "widget": {
+                "name": "enable_debug"
+              },
+              "link": null
+            }
+          ],
+          "outputs": [
+            {
+              "label": "IMAGE",
+              "localized_name": "图像",
+              "name": "IMAGE",
+              "type": "IMAGE",
+              "links": [
+                6,
+                7
+              ]
+            }
+          ],
+          "properties": {
+            "cnr_id": "seedvr2_videoupscaler",
+            "ver": "912ab4a5da8bb3590c4659f8f19160a7bd88a656",
+            "Node name for S&R": "SeedVR2VideoUpscaler",
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.5.1"
+            },
+            "aux_id": "numz/ComfyUI-SeedVR2_VideoUpscaler",
+            "widget_ue_connectable": {
+              "color_correction": true,
+              "batch_size": true,
+              "seed": true,
+              "uniform_batch_size": true,
+              "enable_debug": true,
+              "latent_noise_scale": true,
+              "prepend_frames": true,
+              "offload_device": true,
+              "temporal_overlap": true,
+              "input_noise_scale": true,
+              "resolution": true,
+              "max_resolution": true
+            },
+            "ttNbgOverride": {
+              "bgcolor": "#535",
+              "groupcolor": "#a1309b",
+              "color": "#323"
+            }
+          },
+          "widgets_values": [
+            1888546520,
+            "randomize",
+            2048,
+            6000,
+            5,
+            false,
+            "lab",
+            0,
+            0,
+            0,
+            0,
+            "cpu",
+            false
+          ],
+          "widgets_values_named": {
+            "seed": 1888546520,
+            "control_after_generate": "randomize",
+            "resolution": 2048,
+            "max_resolution": 6000,
+            "batch_size": 5,
+            "uniform_batch_size": false,
+            "color_correction": "lab",
+            "temporal_overlap": 0,
+            "prepend_frames": 0,
+            "input_noise_scale": 0,
+            "latent_noise_scale": 0,
+            "offload_device": "cpu",
+            "enable_debug": false
+          },
+          "color": "#2a363b",
+          "bgcolor": "#3f5159"
+        },
+        {
+          "id": 6,
+          "type": "SeedVR2LoadVAEModel",
+          "pos": [
+            3579.740871992659,
+            -75.5767354642311
+          ],
+          "size": [
+            261.808203125,
+            298
+          ],
+          "flags": {
+            "disabled": false
+          },
+          "order": 2,
+          "mode": 0,
+          "inputs": [
+            {
+              "label": "torch_compile_args",
+              "localized_name": "torch_compile_args",
+              "name": "torch_compile_args",
+              "shape": 7,
+              "type": "TORCH_COMPILE_ARGS",
+              "link": null
+            },
+            {
+              "label": "model",
+              "localized_name": "model",
+              "name": "model",
+              "type": "COMBO",
+              "widget": {
+                "name": "model"
+              },
+              "link": null
+            },
+            {
+              "label": "device",
+              "localized_name": "device",
+              "name": "device",
+              "type": "COMBO",
+              "widget": {
+                "name": "device"
+              },
+              "link": null
+            },
+            {
+              "label": "encode_tiled",
+              "localized_name": "encode_tiled",
+              "name": "encode_tiled",
+              "shape": 7,
+              "type": "BOOLEAN",
+              "widget": {
+                "name": "encode_tiled"
+              },
+              "link": null
+            },
+            {
+              "label": "encode_tile_size",
+              "localized_name": "encode_tile_size",
+              "name": "encode_tile_size",
+              "shape": 7,
+              "type": "INT",
+              "widget": {
+                "name": "encode_tile_size"
+              },
+              "link": null
+            },
+            {
+              "label": "encode_tile_overlap",
+              "localized_name": "encode_tile_overlap",
+              "name": "encode_tile_overlap",
+              "shape": 7,
+              "type": "INT",
+              "widget": {
+                "name": "encode_tile_overlap"
+              },
+              "link": null
+            },
+            {
+              "label": "decode_tiled",
+              "localized_name": "decode_tiled",
+              "name": "decode_tiled",
+              "shape": 7,
+              "type": "BOOLEAN",
+              "widget": {
+                "name": "decode_tiled"
+              },
+              "link": null
+            },
+            {
+              "label": "decode_tile_size",
+              "localized_name": "decode_tile_size",
+              "name": "decode_tile_size",
+              "shape": 7,
+              "type": "INT",
+              "widget": {
+                "name": "decode_tile_size"
+              },
+              "link": null
+            },
+            {
+              "label": "decode_tile_overlap",
+              "localized_name": "decode_tile_overlap",
+              "name": "decode_tile_overlap",
+              "shape": 7,
+              "type": "INT",
+              "widget": {
+                "name": "decode_tile_overlap"
+              },
+              "link": null
+            },
+            {
+              "label": "tile_debug",
+              "localized_name": "tile_debug",
+              "name": "tile_debug",
+              "shape": 7,
+              "type": "COMBO",
+              "widget": {
+                "name": "tile_debug"
+              },
+              "link": null
+            },
+            {
+              "label": "offload_device",
+              "localized_name": "offload_device",
+              "name": "offload_device",
+              "shape": 7,
+              "type": "COMBO",
+              "widget": {
+                "name": "offload_device"
+              },
+              "link": null
+            },
+            {
+              "label": "cache_model",
+              "localized_name": "cache_model",
+              "name": "cache_model",
+              "shape": 7,
+              "type": "BOOLEAN",
+              "widget": {
+                "name": "cache_model"
+              },
+              "link": null
+            }
+          ],
+          "outputs": [
+            {
+              "label": "SEEDVR2_VAE",
+              "localized_name": "SEEDVR2_VAE",
+              "name": "SEEDVR2_VAE",
+              "type": "SEEDVR2_VAE",
+              "links": [
+                4
+              ]
+            }
+          ],
+          "properties": {
+            "cnr_id": "seedvr2_videoupscaler",
+            "ver": "912ab4a5da8bb3590c4659f8f19160a7bd88a656",
+            "Node name for S&R": "SeedVR2LoadVAEModel",
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.5.1"
+            },
+            "aux_id": "numz/ComfyUI-SeedVR2_VideoUpscaler",
+            "widget_ue_connectable": {
+              "encode_tiled": true,
+              "encode_tile_overlap": true,
+              "cache_model": true,
+              "encode_tile_size": true,
+              "decode_tiled": true,
+              "decode_tile_size": true,
+              "tile_debug": true,
+              "offload_device": true,
+              "model": true,
+              "decode_tile_overlap": true,
+              "device": true
+            },
+            "ttNbgOverride": {
+              "bgcolor": "#535",
+              "groupcolor": "#a1309b",
+              "color": "#323"
+            }
+          },
+          "widgets_values": [
+            "ema_vae_fp16.safetensors",
+            "cuda:0",
+            true,
+            1024,
+            128,
+            true,
+            1024,
+            128,
+            "false",
+            "cpu",
+            false
+          ],
+          "widgets_values_named": {
+            "model": "ema_vae_fp16.safetensors",
+            "device": "cuda:0",
+            "encode_tiled": true,
+            "encode_tile_size": 1024,
+            "encode_tile_overlap": 128,
+            "decode_tiled": true,
+            "decode_tile_size": 1024,
+            "decode_tile_overlap": 128,
+            "tile_debug": "false",
+            "offload_device": "cpu",
+            "cache_model": false
+          },
+          "color": "#2a363b",
+          "bgcolor": "#3f5159"
+        },
+        {
+          "id": 7,
+          "type": "Image Comparer (rgthree)",
+          "pos": [
+            4452.000572660534,
+            -390.362596216479
+          ],
+          "size": [
+            759.5448608398438,
+            809.7225952148438
+          ],
+          "flags": {
+            "disabled": false
+          },
+          "order": 7,
+          "mode": 0,
+          "inputs": [
+            {
+              "dir": 3,
+              "label": "image_a",
+              "name": "image_a",
+              "type": "IMAGE",
+              "link": 6
+            },
+            {
+              "dir": 3,
+              "label": "image_b",
+              "name": "image_b",
+              "type": "IMAGE",
+              "link": 9
+            }
+          ],
+          "outputs": [
+            {
+              "dir": 4,
+              "label": "image_urls",
+              "name": "image_urls",
+              "shape": 3,
+              "type": "STRING",
+              "links": []
+            },
+            {
+              "dir": 4,
+              "label": "images",
+              "name": "images",
+              "shape": 3,
+              "type": "IMAGE",
+              "links": []
+            }
+          ],
+          "properties": {
+            "comparer_mode": "Slide",
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.4.1"
+            },
+            "cnr_id": "rgthree-comfy",
+            "ver": "2b9eb36d3e1741e88dbfccade0e08137f7fa2bfb",
+            "widget_ue_connectable": {}
+          },
+          "widgets_values": [
+            [
+              {
+                "name": "A",
+                "selected": true,
+                "url": "/api/view?filename=rgthree.compare._temp_thnmx_00002_.png&type=temp&subfolder=&rand=0.5487948453505561"
+              }
+            ]
+          ],
+          "widgets_values_named": {
+            "rgthree_comparer": {
+              "images": [
+                {
+                  "name": "A",
+                  "selected": true,
+                  "url": "/api/view?filename=rgthree.compare._temp_thnmx_00002_.png&type=temp&subfolder=&rand=0.5487948453505561",
+                  "img": {}
+                }
+              ]
+            }
+          },
+          "color": "#233",
+          "bgcolor": "#355"
+        },
+        {
+          "id": 8,
+          "type": "SaveImage",
+          "pos": [
+            5238.164391019909,
+            -378.36900490788526
+          ],
+          "size": [
+            799.2314059843175,
+            885.5097344055198
+          ],
+          "flags": {
+            "disabled": false
+          },
+          "order": 8,
+          "mode": 0,
+          "inputs": [
+            {
+              "label": "图像",
+              "localized_name": "图片",
+              "name": "images",
+              "type": "IMAGE",
+              "link": 7
+            },
+            {
+              "label": "文件名前缀",
+              "localized_name": "文件名前缀",
+              "name": "filename_prefix",
+              "type": "STRING",
+              "widget": {
+                "name": "filename_prefix"
+              },
+              "link": null
+            }
+          ],
+          "outputs": [
+            {
+              "label": "image_urls",
+              "localized_name": "images",
+              "name": "images",
+              "type": "IMAGE",
+              "links": []
+            },
+            {
+              "localized_name": "images",
+              "name": "images",
+              "type": "IMAGE",
+              "links": []
+            }
+          ],
+          "properties": {
+            "cnr_id": "comfy-core",
+            "ver": "0.3.75",
+            "Node name for S&R": "SaveImage",
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.2.2"
+            },
+            "widget_ue_connectable": {
+              "filename_prefix": true
+            }
+          },
+          "widgets_values": [
+            "Work-Fisher"
+          ],
+          "widgets_values_named": {
+            "filename_prefix": "Work-Fisher"
+          },
+          "color": "#233",
+          "bgcolor": "#355"
+        },
+        {
+          "id": 9,
+          "type": "INTConstant",
+          "pos": [
+            3172.5038182828657,
+            348.8852881384149
+          ],
+          "size": [
+            272.724365234375,
+            270
+          ],
+          "flags": {
+            "disabled": false
+          },
+          "order": 3,
+          "mode": 0,
+          "inputs": [
+            {
+              "label": "值",
+              "localized_name": "value",
+              "name": "value",
+              "type": "INT",
+              "widget": {
+                "name": "value"
+              },
+              "link": null
+            }
+          ],
+          "outputs": [
+            {
+              "label": "值",
+              "localized_name": "value",
+              "name": "value",
+              "type": "INT",
+              "links": [
+                5
+              ]
+            }
+          ],
+          "properties": {
+            "cnr_id": "comfyui-kjnodes",
+            "ver": "4dfb85dcc52e4315c33170d97bb987baa46d128b",
+            "Node name for S&R": "INTConstant",
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.2.2"
+            },
+            "widget_ue_connectable": {
+              "value": true
+            }
+          },
+          "widgets_values": [
+            3840
+          ],
+          "widgets_values_named": {
+            "value": 3840
+          },
+          "color": "#1b4669",
+          "bgcolor": "#29699c"
+        },
+        {
+          "id": 10,
+          "type": "LoadImage",
+          "pos": [
+            2532.7545255710993,
+            -395.5167568124028
+          ],
+          "size": [
+            601.3253077488143,
+            754.9725318959039
+          ],
+          "flags": {},
+          "order": 4,
+          "mode": 0,
+          "inputs": [
+            {
+              "label": "图像",
+              "localized_name": "图像",
+              "name": "image",
+              "type": "COMBO",
+              "widget": {
+                "name": "image"
+              },
+              "link": null
+            },
+            {
+              "localized_name": "选择文件上传",
+              "name": "upload",
+              "type": "IMAGEUPLOAD",
+              "widget": {
+                "name": "upload"
+              },
+              "link": null
+            }
+          ],
+          "outputs": [
+            {
+              "label": "图像",
+              "localized_name": "图像",
+              "name": "IMAGE",
+              "type": "IMAGE",
+              "links": [
+                8,
+                9
+              ]
+            },
+            {
+              "label": "遮罩",
+              "localized_name": "遮罩",
+              "name": "MASK",
+              "type": "MASK",
+              "links": null
+            }
+          ],
+          "properties": {
+            "cnr_id": "comfy-core",
+            "ver": "0.42.5",
+            "Node name for S&R": "LoadImage",
+            "ue_properties": {
+              "widget_ue_connectable": {},
+              "input_ue_unconnectable": {},
+              "version": "7.3"
+            },
+            "guhaiImageValue": "3e734088-9f0a-4a57-82b4-e2982d5112a0.png"
+          },
+          "widgets_values": [
+            "3e734088-9f0a-4a57-82b4-e2982d5112a0.png",
+            "image"
+          ],
+          "widgets_values_named": {
+            "image": "3e734088-9f0a-4a57-82b4-e2982d5112a0.png",
+            "upload": "image"
+          }
+        }
+      ],
+      "links": [
+        [
+          2,
+          1,
+          0,
+          5,
+          0,
+          "IMAGE"
+        ],
+        [
+          3,
+          2,
+          0,
+          5,
+          1,
+          "SEEDVR2_DIT"
+        ],
+        [
+          4,
+          6,
+          0,
+          5,
+          2,
+          "SEEDVR2_VAE"
+        ],
+        [
+          5,
+          9,
+          0,
+          5,
+          4,
+          "INT"
+        ],
+        [
+          6,
+          5,
+          0,
+          7,
+          0,
+          "IMAGE"
+        ],
+        [
+          7,
+          5,
+          0,
+          8,
+          0,
+          "IMAGE"
+        ],
+        [
+          8,
+          10,
+          0,
+          1,
+          0,
+          "IMAGE"
+        ],
+        [
+          9,
+          10,
+          0,
+          7,
+          1,
+          "IMAGE"
+        ]
+      ],
+      "groups": [],
+      "config": {},
+      "extra": {
+        "ue_links": [],
+        "ds": {
+          "scale": 1.1167815779424806,
+          "offset": [
+            -2009.0172051738386,
+            541.2986957092567
+          ]
+        },
+        "links_added_by_ue": []
+      },
+      "version": 0.4
+    }
+  },
+  "inputs": {
+    "refImage": {
+      "field": "image",
+      "node": "10"
+    },
+    "seed": {
+      "field": "seed",
+      "node": "5"
+    }
+  },
+  "outputs": {
+    "image": {
+      "field": "images",
+      "node": "8"
+    }
+  },
+  "models": [
+    {
+      "file": "ema_vae_fp16.safetensors",
+      "dir": "SEEDVR2",
+      "bytes": 0,
+      "sha256": "",
+      "source": {
+        "url": "",
+        "hfSearch": "https://huggingface.co/models?search=ema_vae_fp16"
+      }
+    }
+  ],
+  "customNodes": [],
+  "notes": "出厂模板：工作流已内嵌，模型按 dir 放到 ComfyUI/models/<dir>/。"
+}
