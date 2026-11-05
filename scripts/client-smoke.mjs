@@ -176,3 +176,50 @@ if (handlerErrors.length) {
 console.log("PASS  事件处理器自检（无未定义引用）");
 
 console.log(`\nbundle 行数 ${code.split("\n").length}`);
+
+// ---------- 静态守卫：setter / ref 变量必须声明过（assetQRef 就是这么漏的） ----------
+const srcRaw = await readFile(join(HERE, "lib", "client-src", "canvas-app.js"), "utf8");
+{
+  // 去掉注释与字符串，避免把 "binding.setDefault" 之类当成变量
+  const srcText = srcRaw
+    .replace(/\/\*[\s\S]*?\*\//g, " ")
+    .replace(/\/\/[^\n]*/g, " ")
+    .replace(/`(?:[^`\\]|\\.)*`/g, '""')
+    .replace(/"(?:[^"\\]|\\.)*"/g, '""')
+    .replace(/'(?:[^'\\]|\\.)*'/g, '""');
+
+  const declared = new Set();
+  for (const m of srcText.matchAll(/\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)/g)) declared.add(m[1]);
+  for (const m of srcText.matchAll(/\b(?:const|let|var)\s*\[([^\]]+)\]/g)) {
+    for (const part of m[1].split(",")) {
+      const name = part.trim().split(/[:=]/)[0].trim();
+      if (/^[A-Za-z_$][\w$]*$/.test(name)) declared.add(name);
+    }
+  }
+  for (const m of srcText.matchAll(/\b(?:const|let|var)\s*\{([^}]+)\}/g)) {
+    for (const part of m[1].split(",")) {
+      const name = part.trim().split(/[:=]/)[0].trim();
+      if (/^[A-Za-z_$][\w$]*$/.test(name)) declared.add(name);
+    }
+  }
+  // 函数参数（粗一点，够用）
+  for (const m of srcText.matchAll(/\(([^()]*)\)\s*=>/g)) {
+    for (const part of m[1].split(",")) {
+      const name = part.trim().split(/[=:]/)[0].trim();
+      if (/^[A-Za-z_$][\w$]*$/.test(name)) declared.add(name);
+    }
+  }
+
+  const used = new Set();
+  for (const m of srcText.matchAll(/(?<![.\w$])(set[A-Z][\w$]*)\b/g)) used.add(m[1]);
+  for (const m of srcText.matchAll(/(?<![.\w$])([a-z][\w$]*Ref)\b/g)) used.add(m[1]);
+
+  const known = new Set(["setTimeout", "setInterval", "setImmediate", "setAttribute", "setPointerCapture", "useRef", "useState", "useEffect", "useMemo", "useCallback"]);
+  const missing = [...used].filter((n) => !declared.has(n) && !known.has(n));
+  if (missing.length) {
+    console.log("FAIL  未声明的 setter/ref: " + missing.join(", "));
+    process.exitCode = 1;
+  } else {
+    console.log(`PASS  setter/ref 全部已声明（${used.size} 个）`);
+  }
+}
