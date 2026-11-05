@@ -94,7 +94,7 @@
    "total_frames": 120,
    "timeline_data": "{\"version\": 5, \"editMode\": \"global\", \"totalFrames\": 120, \"frameRate\": 24, \"video\": {\"fileName\": \"\", \"videoFile\": \"\", \"subfolder\": \"\", \"type\": \"input\", \"frames\": [], \"frameMap\": [], \"sourceFrameCount\": 656, \"deletedSourceRanges\": []}, \"videoClips\": [], \"global\": {\"taskType\": \"r2v — 参考主体生视频(Reference to Video)\", \"prompt\": \"\", \"refs\": [], \"refAudios\": [], \"referenceVideo\": {\"videoFile\": \"\", \"fileName\": \"\", \"type\": \"input\", \"subfolder\": \"\"}, \"continuousReference\": false, \"commonEnabled\": false, \"commonCollapsed\": true, \"refVideos\": [], \"genImage\": {\"imageFile\": \"\"}, \"sourceWidth\": 1080, \"sourceHeight\": 1920}, \"output\": {\"mode\": \"fixed\", \"aspectRatio\": \"16:9 (宽屏)\", \"megapixels\": 0.5, \"multiple\": 32, \"longEdge\": 960, \"width\": 960, \"height\": 544, \"maxExportFrames\": 0, \"exportMode\": \"all\", \"audioMode\": \"generate\", \"exportSourceImages\": false, \"exportPreFaceRefine\": false, \"refImageSize\": \"match\", \"continuityEnabled\": true, \"continuityOverlapFrames\": 22, \"continuityMode\": \"continue\", \"continuityRedraw\": 0.1, \"continuityKeepTail\": true}, \"runSelectEnabled\": false, \"runSelection\": [], \"liveTaePreview\": false, \"segments\": [{\"id\": \"mtob7i5ayeq3l\", \"start\": 0, \"length\": 120, \"frameCount\": 120, \"durationSec\": 5.0, \"prompt\": \"\", \"negativePrompt\": \"\", \"taskType\": \"\", \"refs\": [], \"refAudios\": [], \"refVideos\": [], \"genImage\": {\"imageFile\": \"\"}, \"startImage\": null, \"endImage\": null, \"continuityFromPrev\": false, \"refImageSize\": \"match\", \"loras\": []}], \"timelineMode\": \"single\", \"width\": 960, \"height\": 544, \"refMaxSize\": 960, \"gen\": {\"defaultFrameCount\": 120}, \"batchDetailMode\": \"solo\", \"batchWorkspaces\": {\"r2v\": {\"selectedIndex\": 0, \"editMode\": \"segment\", \"runSelectEnabled\": false, \"runSelection\": [], \"segments\": [], \"globalCommon\": {\"commonEnabled\": false, \"commonCollapsed\": true, \"prompt\": \"\", \"refs\": [], \"refAudios\": [], \"refVideos\": []}}, \"i2v\": {\"selectedIndex\": 1, \"editMode\": \"segment\", \"runSelectEnabled\": false, \"runSelection\": [], \"segments\": [], \"globalCommon\": {\"commonEnabled\": false, \"commonCollapsed\": true, \"prompt\": \"\", \"refs\": [], \"refAudios\": [], \"refVideos\": []}}, \"t2v\": {\"selectedIndex\": 0, \"editMode\": \"segment\", \"runSelectEnabled\": false, \"runSelection\": [], \"segments\": [], \"globalCommon\": {\"commonEnabled\": false, \"commonCollapsed\": true, \"prompt\": \"\", \"refs\": [], \"refAudios\": [], \"refVideos\": []}}}, \"videoWorkspaces\": {\"rv2v\": {\"selectedIndex\": 0, \"currentFrame\": 0, \"editMode\": \"global\", \"runSelectEnabled\": false, \"runSelection\": [], \"totalFrames\": 124, \"frameRate\": 24, \"storageWidth\": 1152, \"storageHeight\": 32, \"segments\": [], \"video\": {\"fileName\": \"\", \"videoFile\": \"\", \"subfolder\": \"\", \"type\": \"input\", \"frames\": [], \"frameMap\": [], \"deletedSourceRanges\": [], \"sourceFrameCount\": 0, \"width\": 0, \"height\": 0, \"storageWidth\": 1152, \"storageHeight\": 32}, \"videoClips\": [], \"globalCommon\": {\"commonEnabled\": false, \"commonCollapsed\": true, \"prompt\": \"\", \"refs\": [], \"refAudios\": [], \"refVideos\": []}}}, \"shots\": [], \"keyframes\": [], \"durationSec\": 5.0}",
    "bd_grp_advanced": "高级采样",
-   "steps": 5,
+   "steps": 6,
    "sampler": "res_multistep",
    "scheduler": "simple",
    "shift_video": 12.0,
@@ -107,7 +107,6 @@
    "clear_vram_before_face_refine": false,
    "cache_frames_codec": "raw",
    "cache_name": "",
-   "minimax_director_ui": "",
    "model": [
     "16",
     0
@@ -179,11 +178,11 @@
    "rho": 0.0,
    "w_min": 0.5,
    "w_max": 1.0,
-   "enable_latent_chunking": false,
+   "enable_latent_chunking": true,
    "bd_grp_selflift_tile": "高清分块",
-   "enable_tiling": false,
+   "enable_tiling": true,
    "tile_count": 2,
-   "tile_overlap": 128
+   "tile_overlap": 64
   }
  }
 }
