@@ -31,7 +31,18 @@
 
 ---
 
-## 二、六件套（段首一次写够，**不占镜行字数**）
+> **官方位置（2026-11-13 对齐 ref-en.txt 样例）**：官方 `detailed_description` 开头只有**一句自然语言**（风格 + 主光），没有 `Style:`/`Light:`/`Air:` 这类标签行。
+> 所以六件套**不再允许写成标签行**，按下面三处落：
+>
+> | 件 | 落点 |
+> |---|---|
+> | 风格 + 光源方向 + 色板 | 段首那一句（例：`The scene is live-action and cinematic; one warm lamp at the lower left throws a hard pool of amber light across the rug, and only three colours read — deep indigo, warm amber, pale bone white.`） |
+> | 空气介质 | `[Shot 1]` 首句里，跟着光源写（`thin smoke crosses the beam`） |
+> | 前景遮挡 / 景深 / 锚点 | `[Shot 1]` 首句里（`a blurred bronze censer sits in the near foreground` / `the wooden floor and the front door stay in place in every shot`） |
+>
+> 下面表格里的句式**照抄改参数**即可，但只允许出现在这三个位置，**不许再拼成六行标签**。
+
+## 二、六件套（按官方位置落，**不占镜行字数**）
 
 镜行有 ≤70 词硬上限（H23），氛围词塞进镜行会把动作挤掉。**全部写进段首**，一次交代完，后面每镜只在动作句上挂一个光/空气短语。
 

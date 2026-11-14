@@ -10,17 +10,17 @@ subject_definitions
 
 summary
 
-reference generation — Midnight in a mansion where seven people died. A young man in a dark overcoat lays a stack of joss money on the rosewood table and names his price to the dead woman in the photographs on the wall.
+[reference generation] Midnight in a mansion where seven people died. A young man in a dark overcoat lays a stack of joss money on the rosewood table and names his price to the dead woman in the photographs on the wall.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, short parted hair and charcoal overcoat retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, short parted hair and charcoal overcoat retained.
 
-<Subject 4> (image): fully_preserved — face, crimson cheongsam, low bun and the red lines on her cheeks retained.
+<Subject 4> (appears in [Shot 1]): fully_preserved - face, crimson cheongsam, low bun and the red lines on her cheeks retained.
 
-<Subject 6> (image): partially_preserved — table, chairs, photograph wall, clock, crimson silk and lanterns retained; camera angles are free.
+<Subject 6> (appears in [Shot 1]): partially_preserved - table, chairs, photograph wall, clock, crimson silk and lanterns retained; camera angles are free.
 
-<Subject 9> (image): fully_preserved — yellow and red notes bound with red string retained.
+<Subject 9> (appears in [Shot 1]): fully_preserved - yellow and red notes bound with red string retained.
 
 detailed_description
 

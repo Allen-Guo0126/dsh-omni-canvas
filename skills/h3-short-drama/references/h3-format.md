@@ -63,6 +63,7 @@ How the reference pictures align with the target video — <Picture 1> (from [Sh
 <Subject 1> is the young woman in Picture 1: black shoulder-length hair, pale skin, a grey linen shirt, a thin silver hairpin.
 ```
 
+- 引用素材一律写尖括号标签：`in <Picture 1>`；同一主体跨多张图时并列写全：`in <Picture 2>, <Picture 3>, and <Picture 4>`
 - 只写**可见外观**：发式 / 肤色 / 服装 / 体型 / 显著标记 / 随身物
 - 一层即可，**不要**写性格、身世、心理、声纹
 - 用途要写清：锁形象 / 锁空间 / 锁道具 / 锁构图
@@ -75,10 +76,10 @@ How the reference pictures align with the target video — <Picture 1> (from [Sh
 ### 3.2 `summary`
 
 ```
-reference generation — She confronts him across the desk; he denies everything; she puts the photograph down.
+[reference generation] She confronts him across the desk; he denies everything; she puts the photograph down.
 ```
 
-- 段首是**任务类型前缀**：`keyframe completion` / `reference generation` / `video editing` / `video continuation` / `audio reuse` / `audio reference`，多类型用 ` + ` 连接
+- 段首是**方括号任务类型前缀**（官方样例逐字一致）：`[reference generation]` / `[video editing + audio reuse]`；多类型用 ` + ` 连接，不重复
 - 前缀推导：Ref2VA → `reference generation`；首尾帧 → `keyframe completion`；段缝续写 → `video continuation`；音频复用 → `audio reuse`
 - 后面 1–2 句写**本段发生了什么**，不引入新标签
 
@@ -87,8 +88,8 @@ reference generation — She confronts him across the desk; he denies everything
 交代每个参考素材保留到什么程度：
 
 ```
-<Subject 1> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 2> (image): partially_preserved — face retained, clothing replaced by the uniform.
+<Subject 1> (appears in [Shot 1], [Shot 3]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 2> (appears in [Shot 2]): partially_preserved - face retained, clothing replaced by the uniform.
 ```
 
 **保留度取值（固定英文，不许自造）**
@@ -98,24 +99,110 @@ reference generation — She confronts him across the desk; he denies everything
 | 画面 | `fully_preserved` / `partially_preserved` / `attribute_transfer` / `weak_reference` |
 | 音频 | `fully_copy` / `partially_copy` / `reference` / `weak_reference` |
 
+- **括号里写「出现在哪些镜」**：`(appears in [Shot 1], [Shot 3])`——这是官方格式，也顺便能查出"定义了却没在正文出现"的素材
+- **保留度后面用连字符 `-`**，不用破折号 `—`（模板对齐）
 - **`retention_analysis` 里不写 `(Sx)`**（说话人编号只属于对白）
 
 ### 3.4 `detailed_description`（正文主体）
 
 - **全英文**
 - 结构：`[Shot 1]` 无时间戳 → 后续 `[Shot N] At MM:SS.mmm,`
-- 每镜写：景别 + 机位角度 + 运镜 + 画面事实（见 `h3-shot-grammar.md`）
+- **一镜一句（2026-11-10 对齐官方样例）**：每个 `[Shot]` 写成**一个长句**，分号切开两半——
+  - 前半：`the camera cuts to <景别>, <角度>, <运镜 + 位移量>;`
+  - 后半：`<谁> <在哪>, <动作1>, <动作2>, <反应拍>.`
+  - 官方样例：`[Shot 2] At 00:03.000, the camera cuts to a medium shot, 45-degree side angle, sliding forward 12 cm over three seconds on a rail; she walks three steps to the front of the desk and sets <Subject 4> down on the bare wood, her fingers staying on the cloth for a beat before she pulls her hand back.`
+  - **不要**把一镜拆成多句 `At X.X seconds` 的状态列表——那是"状态清单"不是"动作过程"，模型只会取终态
+- **首镜不另起"首帧"句**：机位 + 人 + 位置写在同一个首句里（`inside <Subject 3>, <Subject 1> stands in the doorway on the left, ...`）。单独一句 `At the first frame` 只说空间，会让模型先给空镜
+- 每镜写：景别 + 机位角度 + 运镜（带位移量）+ 画面事实（见 `h3-shot-grammar.md`）
 - 对白写 `<d>[Chinese] 台词</d>`，说话人身份与语气写**在 `<d>` 外面**
 - 体量：**按镜算，不按段算**——单镜 45–70 词为健康区（>75 词 H23 提醒，>100 词直接丢指令），4 镜的 15s 段落在 180–280 词即可。
   > 旧版此处写「15s 段 350–500 词」，与「单镜 ≤70 词」**直接打架**（4 镜最多 280 词，永远够不到 350）。2026-10-21 质检统一为按镜算。**宁细勿简，但不得注水凑字。**
 - 切镜只用绑定短语（见下）
 - **维持句没有独立字段**：Hailuo Web 模板的 `[HOLD]` 段在 H3 六段式里**不存在**，落地为「每镜正文末尾一句正向维持句」（见 `spatial-anchor-and-hold.md §三`）。别去字段列表里找 `[HOLD]`
 
+#### 3.4.-1 段首只写「一句风格句」（2026-11-13 对齐官方）
+
+官方样例的 `detailed_description` 开头是这样：
+
+```text
+The target video uses a realistic multi-camera sitcom style with warm indoor lighting.
+[Shot 1] A medium shot establishes <Subject 1>, …
+```
+
+**只有一句自然语言**（风格 + 光），然后直接进 `[Shot 1]`。
+
+**不许写带标签的元数据行**（`Style:` / `Light:` / `Air:` / `Palette:` / `Foreground:` / `Anchor:`）——官方格式里没有这些标签，模型可能把它们当画面内容或当成"第 0 镜"。
+
+四样东西的正确位置：
+
+| 要写的东西 | 写在哪 |
+|---|---|
+| 风格 + 主光 | 段首那一句 |
+| 空气介质（尘/雾/汽） | `[Shot 1]` 首句里，跟着光源写 |
+| 前景遮挡 / 景深 | `[Shot 1]` 首句里，跟机位写 |
+| 锚点（某物全程不动） | `[Shot 1]` 首句末尾一句：`the wooden floor and the front door stay in place in every shot` |
+
+#### 3.4.0 三条硬约束（2026-11-10 真机返工后新增）
+
+| 约束 | 违反的后果（实测） |
+|---|---|
+| **一镜一个景别**，禁止"段内切"（`medium shot cutting to a macro inside the same shot`） | 模型只取其中一个，另一半丢掉 |
+| **一镜一个事件**，动作节点 ≤3（分号数 ≤2） | 动作节点到第 4、5 个时，模型只渲染最后一个静止状态 |
+| **一镜必须有反应拍**（`for a beat` / `pulls back` / `stops`） | 只有动作没有回应，画面像"物体自己动" |
+
+> 反例（真机踩过）：`the umbrella opens, two ribs snap, the canopy flips inside out, rain hits his face` 塞进一镜 2.5 秒 → 成片只给了一把**撑着的完好黑伞**。拆成 4 镜各 3 秒后，断骨、翻面、湿脸全部成立。
+
+#### 3.4.1 分拍写法：每个 `[Shot]` 至少两个时间点（2026-11-03 实证）
+
+**H3 按文字顺序生成**——先读到什么，第一帧就是什么。只写一段散文、不给时间轴，模型会自己决定开场，常见结果是**先给一个空房间**（`camera-movement.md` 也记过：留白镜写成纯空镜，H3 就会给一个没有人的房间）。
+
+```text
+[Shot 1] Medium two-shot, 50mm, the camera holds still.
+At the first frame, both of them are already in place: Zhou Jianguo stands at the sink with both hands on the edge, Lin Xiao stands one arm's length away, facing him.
+At 1.2 seconds, Lin Xiao speaks: <d>[Chinese] 周叔。那表，能让我看看吗？</d>
+At 4.0 seconds, his right hand closes on the towel hanging from the dispenser, pulls it down, and wipes his fingers.
+At 6.5 seconds, he answers: <d>[Chinese] 不方便。</d>
+```
+
+**三条规矩**
+
+1. **首拍用 `At the first frame, …`**，不要写 `At 00:00.000`——[Shot 1] 带 MM:SS.mmm 会被 H2 判「首镜必须无时间戳」。
+2. **起始状态必须显式**：有人就写「谁在哪、手在做什么」；**空镜也要写出来**（`the corridor is empty`）。**「空」必须是写出来的，不是默认的。** 允许「人走进画面」，但要写明：`At the first frame the corridor is empty; at 1.0 seconds the door on the left opens and she steps in.`（段内 `At 1.0 seconds` 不在 H2 校验范围，只有 `[Shot N]` 开头的时间戳受限）
+3. **道具动作挂在身体部位**：写 `his right hand closes on the towel and pulls it down`，不写 `pulls a paper towel`。主语一悬空，模型就只画「纸出来了」这个结果——**纸会像自己长出来的**。
+
+#### 3.4.2 空间关系闭合：每个可见元素都要挂一个「参照」（2026-11-03 实证）
+
+**不绑定任何具体场景。** 规则只有一条：**镜头里看得见的每件东西、每个人，都要有一个参照物；参照物不能是画框。**
+
+| 参照类型 | 作用 | 模板 |
+|---|---|---|
+| **附着** | 把物挂到结构上 | `set into the wall the camera faces` / `hanging on the same wall` |
+| **方位** | 说明它在另一物的哪一侧 | `on the side wall beside the door` / `to the left of the door` |
+| **距离** | 给出物理量 | `one arm's length from him` / `two steps away` |
+| **朝向** | 说明它面向哪里 | `facing back down the passage` |
+
+**写法顺序**
+
+1. **先立地标**：选这镜最稳、最不会动的一样东西（一面墙 / 一个门洞 / 一张桌），先用附着把它钉死。
+2. **其余元素往地标上挂**：能附着就附着，不能附着就给方位。
+3. **人挂人**：用「距离 + 朝向」互挂（`one arm's length, facing him`）。
+
+**镜头与主轴**
+
+机位要么**顺轴**（沿空间主轴看过去），要么**横轴**（与主轴垂直），二选一；**纵深方向必须与之一致**：
+
+> 顺轴 → 纵深只能进出画；横轴 → 纵深只能横穿。
+> **「横看 + 纵深延伸」= 矛盾，必停。**
+
+**为什么必须写**
+
+H3 不会指出矛盾，它会把两句都实现——造一个物理上不存在的房间。2026-11-03 实证：写了「空间向纵深延伸」+「机位横看端墙」，产物是洗手台落在侧墙、凭空一扇门、门里一条望不到头的走廊。
+
+**没挂参照的元素，等于交给模型自由放置**：参考图里有纵深就塞纵深，有门就安门。
 **官方绑定短语**
 ```
 the camera cuts to / the shot cuts to / the shot transitions to / the shot changes to / the shot switches to
-```
-cross-dissolve / fade / wipe **仅在用户明确要求时**使用。
+```cross-dissolve / fade / wipe **仅在用户明确要求时**使用。
 
 **切或不切：四问判据（2026-10-24 吸收官方母本）**
 

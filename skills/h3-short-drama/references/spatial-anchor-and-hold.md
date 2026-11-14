@@ -13,6 +13,42 @@ H3 **每段独立生成、零记忆**，且**按词根触发视觉图层**。它
 
 ---
 
+## 一·补、多人在场场景：定场帧 + 在场表 + 进出场写死（2026-11-03 真机实证）
+
+**症状**：同一场戏里 A 镜少了个人、B 镜又凭空冒出来；或者同一个人既坐在桌边又站在门口。
+
+**两个根因（都是提示词，不是模型不行）**：
+
+1. **把「在场」和「入画」混成一句**。写 `exactly two people are in frame` 试图避免分身，结果模型把第三个人从**整个场景**里删掉了；下一镜她要说话、写了她的台词，她才「凭空出现」。观众看到的是人瞬移。
+2. **拿「全员已入座」的定场帧当状态参考**，而这一镜其实要他**从门口进来**。模型把「坐着的他」和「进门的他」都画了出来，一镜两个同一个人。
+
+**三步做法**：
+
+1. **先出一张定场帧**：同一机位、全员已入位、桌面道具齐全的 16:9 电影帧（不是俯视平面图）。它一次锁四样：**座位、服装、桌面道具、光位**。全场景段挂载。俯视座位示意图**不要用**——和成片镜头不在同一视觉域，模型要么画成俯视，要么当装饰。
+2. **每段分三层写**：
+   - **在场表**：谁在场、坐哪、背对谁（三个人都要点名，哪怕不入画）
+   - **本镜入画**：谁在画面里、在画幅哪一侧
+   - **主动作**：谁动、谁说话（**主动作 ≤2 人**；静默第三人可以入画，但必须写死位置 + 静止状态，**禁旁观动词**）
+3. **进出场逐动作写死**，参考图只给位置、不给状态：
+   `At the first frame the east seat is empty and Zhou Jianguo is not in the room. He is outside, behind the closed door. The door swings open; he appears in the doorway ... He does not come back and does not appear again in this shot.`
+
+**参考图语义必须点明它是哪一类**：
+
+| 镜头类型 | 写法 |
+|---|---|
+| 全员已入座 | `Seating matches <Picture N> exactly; keep every person in the same seat.` |
+| 有人入场 / 离场 | `<Picture N> is a blocking reference ONLY: it shows where the chairs are. It is not a state reference — do not copy who is sitting in it.` + 写明空位与出场路径 |
+
+**两种都要写「谁现在不在」**。反面写法：`matches this picture exactly` + 又要求某人入场 = 必出两个。
+
+**减人只能靠景别，不能靠「清场」声明（2026-11-03 补充）**：想要「画面里只有他」，就换**近景/特写**，并把他钉在画面某一侧（`framed in the right half, close to the door frame`），再写「桌子和其他椅子在画外」。**不要**在广角里写 `only he is in frame`——模型会把整间屋子和另外两个人一起清空，结果是一个老头孤零零站在空桌边，景别还变成了全景。同理，单人镜必须写「他坐着/站在哪一侧、背后是什么」，否则他会从座位上漂走。
+
+**代价**：定场帧多一次出图（几分钟），但省下的是 5–8 段的重渲。
+
+---
+
+---
+
 ## 二、第一件必做：全片一张「空间锚点卡」（区分全程闭合段 vs 状态变化段）
 
 开写前先钉死全片空间锚点卡，在每段 `detailed_description` 开头复述：

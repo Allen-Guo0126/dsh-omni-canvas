@@ -10,13 +10,13 @@ subject_definitions
 
 summary
 
-reference generation — An old landlord stands in a rented entrance hall and gives one rule about the door at night; the young tenant asks what to do when the knocking is urgent; the landlord turns to the closed door and rests his hand on the latch.
+[reference generation] An old landlord stands in a rented entrance hall and gives one rule about the door at night; the young tenant asks what to do when the knocking is urgent; the landlord turns to the closed door and rests his hand on the latch.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 2> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 3> (image): fully_preserved — closed steel door, chain, shoe cabinet, meter box and bulb all retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 2> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 3> (appears in [Shot 1]): fully_preserved - closed steel door, chain, shoe cabinet, meter box and bulb all retained.
 
 detailed_description
 
@@ -48,12 +48,12 @@ subject_definitions
 
 summary
 
-reference generation — Knocking vibrates the closed door after midnight; a woman outside claims a burst pipe on the sixth floor; the young tenant checks the dry sill and answers her through the closed steel leaf.
+[reference generation] Knocking vibrates the closed door after midnight; a woman outside claims a burst pipe on the sixth floor; the young tenant checks the dry sill and answers her through the closed steel leaf.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 3> (image): fully_preserved — closed steel door, chain, shoe cabinet, meter box and bulb all retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 3> (appears in [Shot 1]): fully_preserved - closed steel door, chain, shoe cabinet, meter box and bulb all retained.
 
 detailed_description
 
@@ -85,12 +85,12 @@ subject_definitions
 
 summary
 
-reference generation — The young tenant bends down by the closed steel door and finds a square white photograph lying on the floor; he turns it over and sees a red brush character written on the back.
+[reference generation] The young tenant bends down by the closed steel door and finds a square white photograph lying on the floor; he turns it over and sees a red brush character written on the back.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 3> (image): fully_preserved — closed steel door, chain, shoe cabinet, meter box and bulb all retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 3> (appears in [Shot 1]): fully_preserved - closed steel door, chain, shoe cabinet, meter box and bulb all retained.
 
 detailed_description
 
@@ -124,13 +124,13 @@ subject_definitions
 
 summary
 
-reference generation — A phone rings in the entrance hall; the old landlord says the door heard an answer rather than a question; the single dark green steel door swings open and the old man stands in the corridor beyond.
+[reference generation] A phone rings in the entrance hall; the old landlord says the door heard an answer rather than a question; the single dark green steel door swings open and the old man stands in the corridor beyond.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 2> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 3> (image): partially_preserved — hall walls, shoe cabinet, meter box and bulb retained; the dark green steel door stays closed in Shots 1 to 3 and swings open in Shot 4.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 2> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 3> (appears in [Shot 1]): partially_preserved - hall walls, shoe cabinet, meter box and bulb retained; the dark green steel door stays closed in Shots 1 to 3 and swings open in Shot 4.
 
 detailed_description
 

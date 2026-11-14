@@ -8,13 +8,13 @@ subject_definitions
 
 summary
 
-reference generation — An old landlord stands in a rented entrance hall and gives one rule about the door at night; the young tenant asks what to do when the knocking is urgent; the landlord leaves.
+[reference generation] An old landlord stands in a rented entrance hall and gives one rule about the door at night; the young tenant asks what to do when the knocking is urgent; the landlord leaves.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 2> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 3> (image): fully_preserved — door, chain, shoe cabinet, meter box and bulb all retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 2> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 3> (appears in [Shot 1]): fully_preserved - door, chain, shoe cabinet, meter box and bulb all retained.
 
 detailed_description
 

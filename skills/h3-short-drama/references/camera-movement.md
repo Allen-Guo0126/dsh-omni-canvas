@@ -11,6 +11,34 @@
 
 ---
 
+## 零·补、官方词表优先（2026-11-13 对齐官方 ref/base-en.txt）
+
+**运镜先写官方词，再补物理量。** 官方训练词表是模型真正认识的语言：
+
+| 维度 | 可用写法 |
+|---|---|
+| 运动类型 | `Push In / Pull Out`、`Zoom In / Zoom Out`、`Pan Left / Pan Right`、`Truck Left / Truck Right`、`Tilt Up / Tilt Down`、`Pedestal Up / Pedestal Down`、`Arc Shot`、`Tracking Shot`、`Static Shot`、`POV`、`Shake Slightly / Shake Strongly`、`Roll Clockwise / Roll Counterclockwise` |
+| 幅度 | `with small amplitude` / `with large amplitude` |
+| 速度 | `at slow speed` / `at fast speed` |
+
+写成**句子里的自然动作**，不要堆标签：
+
+```text
+The camera pushes in with small amplitude at slow speed toward the folded letter in her hands.
+The camera holds a static shot as the runner exits the frame.
+```
+
+**物理量（距离/角度/秒数）是补充，不是替代**：
+
+```text
+✅ The camera pushes in with small amplitude at slow speed, closing about 15 cm over three seconds, toward the folded letter.
+❌ The camera slides forward 12 cm over three seconds on a rail toward the folded letter.
+```
+
+理由：官方词表是模型训练时的触发词（它认识"小幅慢速推"）；纯物理量写法（`12 cm on a rail`）模型只能理解成"要动"，幅度和速度全靠猜——这就是推镜时而过猛时而没动的原因。
+
+---
+
 ## 零、H3 运镜的四个物理事实
 
 这四条决定了后面所有规则的写法。不认这四条，写出来的运镜规则全是废的。

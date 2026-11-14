@@ -29,7 +29,7 @@
 ### summary
 
 ```
-reference generation — She comes in with a handkerchief and sets it on his desk; he keeps writing; she says a name; he raises his head at last.
+[reference generation] She comes in with a handkerchief and sets it on his desk; he keeps writing; she says a name; he raises his head at last.
 ```
 
 ### retention_analysis

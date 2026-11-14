@@ -6,12 +6,12 @@
 
 # summary
 
-reference generation — She eats hotpot alone in a frozen living room and speaks one cold line to the empty room.
+[reference generation] She eats hotpot alone in a frozen living room and speaks one cold line to the empty room.
 
 # retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and the green slip robe retained.
-<Subject 6> (image): fully_preserved — fire door, frosted window, table and rug retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and the green slip robe retained.
+<Subject 6> (appears in [Shot 1]): fully_preserved - fire door, frosted window, table and rug retained.
 
 # 画幅 9:16 | 4s
 
@@ -27,4 +27,4 @@ The broth rolling in the pot; wind pressing at the frosted window.
 
 # non_diegetic_music
 
-None.
+N/A

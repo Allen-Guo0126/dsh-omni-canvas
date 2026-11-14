@@ -6,12 +6,12 @@ subject_definitions
 
 summary
 
-reference generation — The young tenant crouches by the closed door and sees no water; a Polaroid photograph with a red character slides through the gap; he picks it up and reads the back.
+[reference generation] The young tenant crouches by the closed door and sees no water; a Polaroid photograph with a red character slides through the gap; he picks it up and reads the back.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and clothing all retained.
-<Subject 3> (image): fully_preserved — door, chain, shoe cabinet, meter box and bulb all retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and clothing all retained.
+<Subject 3> (appears in [Shot 1]): fully_preserved - door, chain, shoe cabinet, meter box and bulb all retained.
 
 detailed_description
 

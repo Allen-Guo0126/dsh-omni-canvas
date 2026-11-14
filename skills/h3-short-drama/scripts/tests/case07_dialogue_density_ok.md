@@ -10,17 +10,17 @@ subject_definitions
 
 summary
 
-reference generation — She comes in through the open door and catches him on the phone; the two of them trade lines back and forth across the room, one line each, his back half turned the whole time.
+[reference generation] She comes in through the open door and catches him on the phone; the two of them trade lines back and forth across the room, one line each, his back half turned the whole time.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle, cardigan, jeans and the silver chain retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle, cardigan, jeans and the silver chain retained.
 
-<Subject 2> (image): fully_preserved — face, hairstyle, shirt, trousers and the ring retained.
+<Subject 2> (appears in [Shot 1]): fully_preserved - face, hairstyle, shirt, trousers and the ring retained.
 
-<Subject 3> (image): partially_preserved — door, shoe cabinet, sofa, glass table and window retained; camera angles are free.
+<Subject 3> (appears in [Shot 1]): partially_preserved - door, shoe cabinet, sofa, glass table and window retained; camera angles are free.
 
-<Subject 4> (image): fully_preserved — red cover, gold characters and the worn corner retained.
+<Subject 4> (appears in [Shot 1]): fully_preserved - red cover, gold characters and the worn corner retained.
 
 detailed_description
 

@@ -8,15 +8,15 @@ subject_definitions
 
 summary
 
-reference generation — A deliberately over-written shot: the young woman crosses the room, sits down, opens a drawer, lifts a booklet, turns pages and speaks, all in one shot, with no hold clause and no fixed seating.
+[reference generation] A deliberately over-written shot: the young woman crosses the room, sits down, opens a drawer, lifts a booklet, turns pages and speaks, all in one shot, with no hold clause and no fixed seating.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and green silk robe retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and green silk robe retained.
 
-<Subject 3> (image): fully_preserved — face, dyed curled hair and mustard padded coat retained.
+<Subject 3> (appears in [Shot 1]): fully_preserved - face, dyed curled hair and mustard padded coat retained.
 
-<Subject 6> (image): partially_preserved — low table, wool rug, fire door and frosted window retained; camera angles are free.
+<Subject 6> (appears in [Shot 1]): partially_preserved - low table, wool rug, fire door and frosted window retained; camera angles are free.
 
 detailed_description
 

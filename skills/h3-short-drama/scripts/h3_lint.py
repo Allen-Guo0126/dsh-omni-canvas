@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-h3_lint.py — MiniMax H3 提示稿机检（H1~H36 · 支持单段与多段合稿自动切分校验）
+h3_lint.py — MiniMax H3 提示稿机检（H1~H43 · 支持单段与多段合稿自动切分校验）
 
 用法:
     python h3_lint.py prompt.md --duration 15
@@ -69,6 +69,32 @@ STYLE_WHITELIST = [
     r"high contrast", r"low[- ]?key", r"high[- ]?key", r"colou?r temperature",
     r"cinematic realism", r"documentary realism", r"natural light",
 ]
+
+
+REQUIRED_FORMULAS = [
+    r"lips? (?:remain|stay|are|is) (?:completely |fully )?closed",
+    r"mouth (?:remains|stays|is) (?:shut|closed)",
+    r"\(S\d+\)\s*says? in an off-screen voice-?over",
+    r"in an off-screen voice-?over",
+    r"(?:does|do) not (?:move|speak|stop|blink|turn|look|react)",
+    r"without (?:a word|speaking|moving|blinking)",
+]
+
+
+# 中文审阅块 <!--zh … -->：只给人看，不参与机检（与 prompt-normalize.js 的 ZH_BLOCK 同一规则）
+ZH_BLOCK = re.compile(r"<!--\s*zh[\s\S]*?-->\s*$", re.I)
+
+
+def strip_zh_block(text: str) -> str:
+    return ZH_BLOCK.sub("", text).rstrip()
+
+
+def mask_required_formulas(text: str) -> str:
+    """官方要求的闭口证据/画外声公式含否定词，但它们是性能指令、不会被画出来。
+    先遮掉，免得 H13 把公式本身判成硬词根（2026-11-10 消规则冲突）。"""
+    for pat in REQUIRED_FORMULAS:
+        text = re.sub(pat, " ", text, flags=re.I)
+    return text
 
 
 def mask_style_terms(text: str) -> str:
@@ -196,6 +222,8 @@ def load(path: Path, duration_override):
     raw = path.read_text(encoding="utf-8-sig", errors="replace")
     if raw.startswith("\ufeff"):
         raw = raw.lstrip("\ufeff")
+    # 中文审阅块 <!--zh … --> 只给人看：先剥掉，否则中文会被算进正文词数、触发 H4 中文混排
+    raw = strip_zh_block(raw)
     duration = duration_override
     images = None
     aspect = None
@@ -208,12 +236,12 @@ def load(path: Path, duration_override):
             for i, seg in enumerate(data):
                 if not isinstance(seg, dict):
                     continue
-                txt = seg.get("prompt") or ""
+                txt = strip_zh_block(seg.get("prompt") or "")
                 fname = seg.get("file")
                 if not txt and fname:
                     fp = (path.parent / fname)
                     if fp.exists():
-                        txt = fp.read_text(encoding="utf-8-sig", errors="replace").lstrip("\ufeff")
+                        txt = strip_zh_block(fp.read_text(encoding="utf-8-sig", errors="replace").lstrip("\ufeff"))
                     else:
                         missing.append(fname)
                 if txt:
@@ -530,7 +558,8 @@ def check(text, duration, aspect=None):
 
     joined = "\n".join(b[2] for b in shot_bodies)
     pre = body[: shots[0].start()] if shots else body
-    pre_masked = mask_style_terms(pre)
+    pre_masked = mask_required_formulas(mask_style_terms(pre))
+    joined = mask_required_formulas(joined)
     hard_scan = (pre_masked.strip() + "\n" + joined) if pre_masked.strip() else joined
     soft_scan = joined
     if hard_scan.strip():
@@ -1063,13 +1092,119 @@ def check(text, duration, aspect=None):
                                   ("空气介质(烟/尘/雾/汽)", has_air),
                                   ("前景遮挡/景深", has_fore)) if not v]
     if len(missing_amb) >= 2:
-        r.warn("H35", f"氛围层缺 {len(missing_amb)}/3：{'、'.join(missing_amb)}"
+        (r.fail if ARGS.strict_atmo else r.warn)("H35", f"氛围层缺 {len(missing_amb)}/3：{'、'.join(missing_amb)}"
                       f"（参考图给不了光、空气、前景，不写就是平光片）——"
                       f"处方见 references/atmosphere-and-light.md §二六件套，"
                       f"段首补 光位句 + 空气句 + 前景句，不占镜行字数")
     else:
         r.ok("H35", f"氛围层齐（光位={'有' if has_light else '缺'} / "
                     f"空气={'有' if has_air else '缺'} / 前景={'有' if has_fore else '缺'}）")
+
+    # ---------- H37 清场式人数声明 + 广角（减人靠景别，不靠清场） ----------
+    # 2026-11-03 实证：广角里写 `only he is in frame`，模型把整间屋子、桌面和另外两个人都清空，
+    # 景别还被拉成全景，只剩一个人站在空桌边。要单人 → 换近景/特写 + 钉在画面某一侧。
+    CLEAR_RE = re.compile(
+        r"\bonly\s+(?:he|she|they|\w+)\s+(?:is|are)\s+in\s+(?:the\s+)?(?:frame|shot|picture)\b"
+        r"|\bexactly\s+(?:one|two|three|four|five|\d+)\s+(?:people|persons?|men|women|characters?)\s+"
+        r"(?:are|is)\s+in\s+(?:the\s+)?(?:frame|shot|picture)\b"
+        r"|\bthe\s+other\s+(?:two|three|people|men|women)\s+(?:are|is)\s+out\s+of\s+(?:the\s+)?frame\b"
+        r"|\bno\s+one\s+else\s+(?:is\s+)?in\s+(?:the\s+)?(?:frame|shot|room)\b",
+        re.I,
+    )
+    WIDE_RE = re.compile(
+        r"\b(?:wide|full|long|establishing)\s+(?:shot|angle)\b|\bwide\s+angle\b|\bfull\s+figure\b",
+        re.I,
+    )
+    h37_hits = []
+    for n, h, t in (shot_bodies or []):
+        clean = re.sub(r"<d>.*?</d>", " ", h + " " + t, flags=re.S)
+        if CLEAR_RE.search(clean) and WIDE_RE.search(clean):
+            h37_hits.append(f"Shot {n}")
+    if h37_hits:
+        r.warn("H37", f"清场式人数声明 + 广角 {'、'.join(h37_hits[:3])}"
+                      f"（模型会把整间屋子连同其他人一起清空，景别还会被拉成全景）"
+                      f"——处方：减人靠景别（近景/特写），把人钉在画面某一侧"
+                      f"（framed in the right half, close to the door frame），"
+                      f"并把桌子椅子明确写到画外（outside the frame and must not appear）")
+    else:
+        r.ok("H37", "无清场式人数声明与广角的冲突")
+
+    # ---------- H38 人物在段内消失（在场 ≠ 入画，没交代就消失） ----------
+    # 2026-11-03 实证：只有两人入画、第三人在画外却未交代，成片看起来像人凭空出现/消失。
+    PERSON_RE = re.compile(
+        r"\b(?:man|woman|boy|girl|person|child|elder|elderly|landlord|tenant|mother|father|"
+        r"daughter|son|husband|wife|teacher|doctor|nurse|driver|waiter|waitress|guard|officer|"
+        r"clerk|boss|stranger|guest|host|neighbour|neighbor)\b",
+        re.I,
+    )
+    person_tags = []
+    for m in re.finditer(r"<Subject\s+(\d+)>\s+is[^.\n]{0,180}", text):
+        if PERSON_RE.search(m.group(0)):
+            person_tags.append(m.group(1))
+    person_tags = sorted(set(person_tags), key=int)
+    EXCUSE_RE = re.compile(
+        r"\b(?:off-screen|off-camera|out\s+of\s+(?:the\s+)?frame|out\s+of\s+shot|"
+        r"not\s+in\s+this\s+shot|does\s+not\s+appear|outside\s+the\s+room|"
+        r"behind\s+the\s+(?:closed\s+)?door|in\s+the\s+next\s+room)\b",
+        re.I,
+    )
+    if len(person_tags) >= 3 and shot_bodies:
+        seen_any = set()
+        per_shot = []
+        CLOSEUP_RE = re.compile(
+            r"\b(?:extreme\s+close-up|close-up|close\s+shot|insert|detail\s+shot|cutaway)\b", re.I)
+        for n, h, t in shot_bodies:
+            clean = re.sub(r"<d>.*?</d>", " ", t, flags=re.S)
+            refs = set(re.findall(r"<Subject\s+(\d+)>", clean))
+            refs &= set(person_tags)
+            # 特写/插入镜天然只装一个人，不算「把人弄丢」
+            excused = bool(EXCUSE_RE.search(clean)) or bool(CLOSEUP_RE.search(h))
+            per_shot.append((n, refs, excused))
+            seen_any |= refs
+        h38_hits = []
+        for n, refs, has_excuse in per_shot:
+            gone = sorted(seen_any - refs, key=int)
+            if gone and not has_excuse:
+                h38_hits.append(f"Shot {n} 少了 <Subject {'>, <Subject '.join(gone)}>")
+        if h38_hits:
+            r.warn("H38", f"人物在段内消失且未交代：{'；'.join(h38_hits[:3])}"
+                          f"（在场 ≠ 入画：模型会把人从整个场景删掉，下一镜再凭空出现）"
+                          f"——处方：画外的写 'sits on the near side, out of frame' 或 "
+                          f"'is outside, behind the closed door'，并在在场表里点名")
+        else:
+            r.ok("H38", "段内人物在场/入画已交代")
+    else:
+        r.ok("H38", "人物不足三人，跳过")
+
+    # ---------- H39 建筑用了画框坐标（换机位必翻） ----------
+    # 2026-11-03 实证：写 the sink on the LEFT side of the frame，模型为满足"左边"把走廊端墙
+    # 改成侧墙，整条走廊旋转 90°。建筑只能用房间坐标（端墙/侧墙/门口/窗下）。
+    ARCH_RE = re.compile(
+        r"\b(?:sink|mirror|door|window|desk|table|counter|sofa|bed|shelf|shelves|cabinet|"
+        r"wall|stairs?|railing|bookcase|wardrobe|stove|counter)\b", re.I)
+    FRAME_SIDE_RE = re.compile(
+        r"on\s+the\s+(?:left|right)(?:\s+side)?\s+of\s+(?:the\s+)?(?:frame|shot|picture|image)", re.I)
+    h39_hits = []
+    for n, h, t in (shot_bodies or []):
+        clean = re.sub(r"<d>.*?</d>", " ", h + " " + t, flags=re.S)
+        for m in FRAME_SIDE_RE.finditer(clean):
+            window = clean[max(0, m.start() - 90): m.end() + 90]
+            if ARCH_RE.search(window):
+                h39_hits.append(f"Shot {n}")
+                break
+    if not h39_hits:
+        for m in FRAME_SIDE_RE.finditer(re.sub(r"<d>.*?</d>", " ", text, flags=re.S)):
+            window = text[max(0, m.start() - 90): m.end() + 90]
+            if ARCH_RE.search(window):
+                h39_hits.append("全文")
+                break
+    if h39_hits:
+        r.warn("H39", f"建筑用了画框坐标 {'、'.join(h39_hits[:3])}"
+                      f"（画面左右随机位翻，模型会为满足'左边'把端墙改成侧墙，整间屋子旋转 90°）"
+                      f"——处方：改成房间坐标 'set into the far end wall' / 'against the side wall'，"
+                      f"画面左右只用于人物朝向")
+    else:
+        r.ok("H39", "建筑未使用画框坐标")
 
     # ---------- H14 画幅全片一致（推荐 9:16，16:9 实测可用） ----------
     # v2.0：不再是"恒 9:16"。9:16 是推荐档，16:9 实测跑得通；只禁 auto/adaptive 与段间混用。
@@ -1138,6 +1273,47 @@ def check(text, duration, aspect=None):
             r.ok("H9", f"画外声 {len(OS_PAIR.findall(body))} 处均带闭口证据")
     if re.search(r"\{\s*锁口型|\{口型\}", body):
         r.fail("H9", "画外声通道禁用了 {} 锁口型")
+
+    # ---------- H40 官方 summary 前缀（方括号） ----------
+    summ = secs.get("summary", "") or ""
+    if summ.strip():
+        if not re.match(r"^\s*\[[a-z][a-z \+]*\]", summ):
+            r.fail("H40", "summary 首行必须是方括号任务类型前缀，如 [reference generation]（官方 ref-en.txt §3）")
+        else:
+            r.ok("H40", "summary 前缀格式合规")
+
+    # ---------- H41 官方 retention 条目格式 ----------
+    ret = secs.get("retention_analysis", "") or ""
+    if ret.strip():
+        bad_rows = []
+        for line in [l.strip() for l in ret.splitlines() if l.strip().startswith("<")]:
+            if not re.match(r"^<(Subject|Picture|Video|Audio)\s+\d+>\s*\(appears in[^)]*\)\s*:", line):
+                bad_rows.append(line[:56])
+            elif " — " in line:
+                bad_rows.append("用了破折号：" + line[:40])
+        if bad_rows:
+            r.warn("H41", "retention 条目不是官方格式（应为 (appears in [Shot N]): fully_preserved - ...）：" + str(bad_rows[:3]))
+        else:
+            r.ok("H41", "retention 条目格式合规")
+
+    # ---------- H42 无 BGM 必须写 N/A ----------
+    bgm_early = (secs.get("non_diegetic_music", "") or "").strip()
+    if bgm_early and re.fullmatch(r'(none|no|nil|无|没有)[\.。]?', bgm_early, re.I):
+        r.fail("H42", "non_diegetic_music 无配乐时官方要求写 N/A，不写 " + bgm_early)
+
+    # ---------- H43 运镜词表（官方词优先） ----------
+    OFFICIAL_MOVE = re.compile(
+        r"\b(push(es)? in|pull(s)? out|zoom(s)? in|zoom(s)? out|pan(s)? (left|right)|"
+        r"truck(s)? (left|right)|tilt(s)? (up|down)|pedestal(s)? (up|down)|arc shot|"
+        r"tracking shot|static shot|shake slightly|shake strongly|roll (clockwise|counterclockwise)|POV)\b",
+        re.I,
+    )
+    UNOFFICIAL_MOVE = re.compile(r"\b(slides? forward|doll(y|ies)|on a rail)\b", re.I)
+    move_hits = OFFICIAL_MOVE.findall(body or "")
+    if UNOFFICIAL_MOVE.search(body or "") and not move_hits:
+        r.warn("H43", "运镜只写了物理量/非官方词（如 slides forward … on a rail），建议改成官方词表：pushes in with small amplitude at slow speed")
+    elif UNOFFICIAL_MOVE.search(body or "") and move_hits:
+        r.ok("H43", "运镜官方词 + 物理量并存")
 
     # ---------- H10 声音分层 ----------
     snd = secs.get("overall_soundscape", "")
@@ -1212,14 +1388,17 @@ def check_cross_segment_slots(segments):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="MiniMax H3 提示稿机检 H1~H36")
+    ap = argparse.ArgumentParser(description="MiniMax H3 提示稿机检 H1~H43")
     ap.add_argument("path", help="prompt.md / prompt.txt / payload.json")
     ap.add_argument("--duration", type=float, default=None, help="段时长（秒），用于 H2/H3")
     ap.add_argument("--aspect", default=None, help="画幅外部声明（渲染端节点参数决定时用）：9:16（默认推荐）或 16:9（横屏）")
+    ap.add_argument("--strict-atmo", action="store_true", help="把 H35 氛围三件套缺失视为 FAIL（画布门禁用）")
     ap.add_argument("--whole", action="store_true", help="强制按单段整份校验（不自动切分多段合稿）")
     ap.add_argument("--json", action="store_true", help="以 JSON 输出结果")
     ap.add_argument("--quiet", action="store_true", help="只显示 FAIL/WARN")
     args = ap.parse_args()
+    global ARGS
+    ARGS = args
 
     p = Path(args.path)
     if not p.exists():

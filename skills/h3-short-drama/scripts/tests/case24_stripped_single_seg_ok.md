@@ -10,14 +10,14 @@ subject_definitions
 
 summary
 
-reference generation — She comes in with a handkerchief and sets it on his desk; he keeps writing; she says a name; he raises his head at last.
+[reference generation] She comes in with a handkerchief and sets it on his desk; he keeps writing; she says a name; he raises his head at last.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle, clothing and the silver chain all retained.
-<Subject 2> (image): fully_preserved — face, the scar on the eyebrow, hairstyle and jacket retained.
-<Subject 3> (image): partially_preserved — desk, bookshelf, window and screen retained; camera angles are free.
-<Subject 4> (image): fully_preserved — colour, frayed edge and the embroidered corner retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle, clothing and the silver chain all retained.
+<Subject 2> (appears in [Shot 1]): fully_preserved - face, the scar on the eyebrow, hairstyle and jacket retained.
+<Subject 3> (appears in [Shot 1]): partially_preserved - desk, bookshelf, window and screen retained; camera angles are free.
+<Subject 4> (appears in [Shot 1]): fully_preserved - colour, frayed edge and the embroidered corner retained.
 
 画幅 9:16 | 12s
 

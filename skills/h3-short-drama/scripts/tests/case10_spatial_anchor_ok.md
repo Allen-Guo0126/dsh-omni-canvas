@@ -8,15 +8,15 @@ subject_definitions
 
 summary
 
-reference generation — The ledger lies open on the low table; the older woman sits at the left end of the table with both hands on her knees while the young woman stands behind it and reads the first entry out loud.
+[reference generation] The ledger lies open on the low table; the older woman sits at the left end of the table with both hands on her knees while the young woman stands behind it and reads the first entry out loud.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and green silk robe retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and green silk robe retained.
 
-<Subject 3> (image): fully_preserved — face, dyed curled hair and mustard padded coat retained.
+<Subject 3> (appears in [Shot 1]): fully_preserved - face, dyed curled hair and mustard padded coat retained.
 
-<Subject 6> (image): partially_preserved — low table, wool rug, fire door, frosted window and monitor wall retained; camera angles are free.
+<Subject 6> (appears in [Shot 1]): partially_preserved - low table, wool rug, fire door, frosted window and monitor wall retained; camera angles are free.
 
 detailed_description
 

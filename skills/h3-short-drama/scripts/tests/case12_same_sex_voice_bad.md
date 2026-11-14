@@ -6,13 +6,13 @@ subject_definitions
 
 summary
 
-reference generation — Two women argue over a ledger across the low table in one breath, both with the same low cold voice.
+[reference generation] Two women argue over a ledger across the low table in one breath, both with the same low cold voice.
 
 retention_analysis
 
-<Subject 1> (image): fully_preserved — face, hairstyle and green silk robe retained.
+<Subject 1> (appears in [Shot 1]): fully_preserved - face, hairstyle and green silk robe retained.
 
-<Subject 3> (image): fully_preserved — face, dyed curled hair and mustard padded coat retained.
+<Subject 3> (appears in [Shot 1]): fully_preserved - face, dyed curled hair and mustard padded coat retained.
 
 detailed_description
 
