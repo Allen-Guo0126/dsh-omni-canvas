@@ -3,6 +3,25 @@
   "version": "0.2.0",
   "description": "DSH plugin: project-scoped infinite canvas that drives a local ComfyUI directly (Qwen-Image 2.1 accelerated text2image / image-edit, H3 director reference-to-video) with a bottom composer and an append-only asset library.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allen-Guo0126/dsh-omni-canvas.git"
+  },
+  "homepage": "https://github.com/Allen-Guo0126/dsh-omni-canvas#readme",
+  "bugs": {
+    "url": "https://github.com/Allen-Guo0126/dsh-omni-canvas/issues"
+  },
+  "author": "Allen-Guo0126",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "comfyui",
+    "canvas",
+    "ai-video",
+    "short-drama",
+    "qwen-image",
+    "minimax-h3"
+  ],
   "license": "MIT",
   "main": "./lib/index.js",
   "exports": {
