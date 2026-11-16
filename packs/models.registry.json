@@ -1,0 +1,404 @@
+{
+    "schema":  1,
+    "name":  "dsh-omni-canvas model registry",
+    "updatedAt":  "2026-11-16",
+    "note":  "Phase 1: H3 / MOSS / Qwen-Image 2.1 main models. Optional LoRAs have no direct link due to unclear licensing.",
+    "mirrors":  [
+                    "huggingface.co",
+                    "hf-mirror.com"
+                ],
+    "urlTemplate":  "https://{host}/{repo}/resolve/main/{path}",
+    "models":  [
+                   {
+                       "id":  "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8",
+                       "group":  "h3",
+                       "role":  "unet",
+                       "dir":  "unet",
+                       "file":  "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+                       "bytes":  20970379632,
+                       "sha256":  "a629cfea8d89a071b140c6e1935dc9a23e72de6badc18975a2bb9e6d1423d76d",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "smhfacct/Minimax-H3-fl2va-ref2va-hybrid-models",
+                                  "path":  "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:57:41",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  20970379632,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "qwen3vl_32b_minimax_h3_nvfp4_awq",
+                       "group":  "h3",
+                       "role":  "clip",
+                       "dir":  "text_encoders",
+                       "file":  "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+                       "bytes":  15687142551,
+                       "sha256":  "35a88d51044231fe332301d7a62aa81e3f2cba62febeb446e2c1e3e0ef76f2c6",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/MiniMax-H3",
+                                  "path":  "text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:57:48",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  15687142551,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "minimax_h3_video_vae_fp16",
+                       "group":  "h3",
+                       "role":  "vae",
+                       "dir":  "vae",
+                       "file":  "minimax_h3_video_vae_fp16.safetensors",
+                       "bytes":  5207808496,
+                       "sha256":  "7c1f131492e7eddacaac9069a61b81bdd39de5cc96561e677c5eab1cdce5e522",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/MiniMax-H3",
+                                  "path":  "vae/minimax_h3_video_vae_fp16.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:57:54",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  5207808496,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "minimax_h3_audio_vae_fp32",
+                       "group":  "h3",
+                       "role":  "vae",
+                       "dir":  "vae",
+                       "file":  "minimax_h3_audio_vae_fp32.safetensors",
+                       "bytes":  605254808,
+                       "sha256":  "8e505d95dd1561d47abd43d4238fd40d9bb1ae9e147ed0a4cba778d76ae4db48",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/MiniMax-H3",
+                                  "path":  "vae/minimax_h3_audio_vae_fp32.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:57:59",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  605254808,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "H3-Licon-VBVR-I2V",
+                       "group":  "h3",
+                       "role":  "lora",
+                       "dir":  "loras",
+                       "file":  "H3-Licon-VBVR-I2V.safetensors",
+                       "bytes":  149238584,
+                       "sha256":  "19ba9d18c06eaecebd11c1ca1d27a0277f414d43370124e3cfcb33a113e9f886",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "LiconStudio/Minimax-H3-VBVR",
+                                  "path":  "H3-Licon-VBVR-I2V.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:04",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  149238584,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "moss_image_sft_bf16",
+                       "group":  "moss",
+                       "role":  "unet",
+                       "dir":  "diffusion_models",
+                       "file":  "moss_image_sft_bf16.safetensors",
+                       "bytes":  10164655808,
+                       "sha256":  "f96738d8116d78b7316b57c663d8c98591ddafab7488f48e3099b7655e34ab6f",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/MOSS-Image",
+                                  "path":  "diffusion_models/moss_image_sft_bf16.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:10",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  10164655808,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "KOOK-MOSS-SFT-观澜",
+                       "group":  "moss",
+                       "role":  "lora",
+                       "dir":  "loras",
+                       "file":  "KOOK-MOSS-SFT-观澜.safetensors",
+                       "bytes":  145157232,
+                       "sha256":  "52e41bc8ab3964b11104332bc7fc742571e5fd1eaf7bc046285a5b37c56d3020",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "RunningHubAI/rh-kook-moss-sft-lora",
+                                  "path":  "KOOK-MOSS-SFT-观澜.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:13",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  145157232,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "qwen3.5_9b_int8_convrot",
+                       "group":  "moss",
+                       "role":  "clip",
+                       "dir":  "text_encoders",
+                       "file":  "qwen3.5_9b_int8_convrot.safetensors",
+                       "bytes":  9748121532,
+                       "sha256":  "32e3787472f708fa5f83624acbf5ef23f7fc89c439e05065ea57cfe5a97f025a",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/MOSS-Image",
+                                  "path":  "text_encoders/qwen3.5_9b_int8_convrot.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:16",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  9748121532,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "flux2-vae",
+                       "group":  "moss",
+                       "role":  "vae",
+                       "dir":  "vae",
+                       "file":  "flux2-vae.safetensors",
+                       "bytes":  336211292,
+                       "sha256":  "868fe7b343cc8f3a19dbcfcafbc3d5f888802be3f89bd81b65b3621a066ce8f3",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/MOSS-Image",
+                                  "path":  "vae/flux2-vae.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:19",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  336211292,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "Qwen-Image-2.1-viggle-turbo-v0.3-6step-int8_convrot",
+                       "group":  "qwen",
+                       "role":  "unet",
+                       "dir":  "diffusion_models",
+                       "file":  "Qwen-Image-2.1-viggle-turbo-v0.3-6step-int8_convrot.safetensors",
+                       "bytes":  7256783064,
+                       "sha256":  "2c9e9f0052f85140ca389d0cde190b49a08a53ad7a4ad7d08a51884c1ed652c2",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Viggle/Qwen-Image-2.1-viggle-turbo",
+                                  "path":  "Qwen-Image-2.1-viggle-turbo-v0.3-6step-int8_convrot.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:21",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  7256783064,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "qwen3vl_8b_bf16",
+                       "group":  "qwen",
+                       "role":  "clip",
+                       "dir":  "text_encoders",
+                       "file":  "qwen3vl_8b_bf16.safetensors",
+                       "bytes":  17534334616,
+                       "sha256":  "68bdc82bc1b66851162ae656225e7e2068166b603db19bd5d5a3b90eb12669a9",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/Qwen-Image-2.1",
+                                  "path":  "text_encoders/qwen3vl_8b_bf16.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:24",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  17534334616,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "qwen3vl_8b_int8_convrot",
+                       "group":  "qwen",
+                       "role":  "clip",
+                       "dir":  "text_encoders",
+                       "file":  "qwen3vl_8b_int8_convrot.safetensors",
+                       "bytes":  9350798360,
+                       "sha256":  "8bfd0f6e12abf2d2d697ecc888e5e90b0d6741d6708f05799f53afa560452e8f",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/Qwen-Image-2.1",
+                                  "path":  "text_encoders/qwen3vl_8b_int8_convrot.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:26",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  9350798360,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "qwen_image_2.1_vae_bf16",
+                       "group":  "qwen",
+                       "role":  "vae",
+                       "dir":  "vae",
+                       "file":  "qwen_image_2.1_vae_bf16.safetensors",
+                       "bytes":  675509688,
+                       "sha256":  "bb21f7473051e1ac368515dd3f2e15cd44d7a11748ee8823e1ddca3e4876b7c9",
+                       "optional":  false,
+                       "hf":  {
+                                  "repo":  "Comfy-Org/Qwen-Image-2.1",
+                                  "path":  "vae/qwen_image_2.1_vae_bf16.safetensors"
+                              },
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:29",
+                                        "method":  "range-get-1MB",
+                                        "httpStatus":  206,
+                                        "bytesReceived":  1048576,
+                                        "acceptRanges":  "bytes",
+                                        "remoteTotal":  675509688,
+                                        "sizeMatches":  true,
+                                        "ok":  true
+                                    }
+                   },
+                   {
+                       "id":  "MysticXXX_MMH3-V1",
+                       "group":  "h3",
+                       "role":  "lora",
+                       "dir":  "loras",
+                       "file":  "MysticXXX_MMH3-V1.safetensors",
+                       "bytes":  0,
+                       "sha256":  "",
+                       "optional":  true,
+                       "hf":  null,
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:29",
+                                        "method":  "none",
+                                        "ok":  false,
+                                        "reason":  "third-party weight, no explicit license, no direct link"
+                                    }
+                   },
+                   {
+                       "id":  "minimax_h3_dmad_full_dareties_v4_step600_comfy_fro",
+                       "group":  "h3",
+                       "role":  "lora",
+                       "dir":  "loras",
+                       "file":  "minimax_h3_dmad_full_dareties_v4_step600_comfy_fro.safetensors",
+                       "bytes":  0,
+                       "sha256":  "",
+                       "optional":  true,
+                       "hf":  null,
+                       "mirrors":  [
+                                       "hf-mirror.com"
+                                   ],
+                       "verified":  {
+                                        "at":  "2026-11-16T18:58:29",
+                                        "method":  "none",
+                                        "ok":  false,
+                                        "reason":  "third-party weight, no explicit license, no direct link"
+                                    }
+                   }
+               ]
+}

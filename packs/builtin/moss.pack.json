@@ -836,7 +836,7 @@
               "widget": {
                 "name": "text"
               },
-              "link": 118
+              "link": null
             }
           ],
           "outputs": [
@@ -1261,7 +1261,7 @@
           ],
           "flags": {},
           "order": 8,
-          "mode": 0,
+          "mode": 4,
           "inputs": [
             {
               "label": "ref_image",
@@ -1356,10 +1356,7 @@
               "localized_name": "describe",
               "name": "describe",
               "type": "STRING",
-              "links": [
-                111,
-                118
-              ]
+              "links": []
             }
           ],
           "properties": {
@@ -1518,27 +1515,11 @@
           "VAE"
         ],
         [
-          111,
-          65,
-          0,
-          56,
-          0,
-          "STRING"
-        ],
-        [
           113,
           57,
           0,
           65,
           6,
-          "STRING"
-        ],
-        [
-          118,
-          65,
-          0,
-          29,
-          1,
           "STRING"
         ]
       ],
@@ -1676,8 +1657,8 @@
       "node": "36"
     },
     "prompt": {
-      "field": "prompt",
-      "node": "65"
+      "node": "29",
+      "field": "text"
     },
     "seed": {
       "field": "seed",
@@ -1737,5 +1718,5 @@
     }
   ],
   "customNodes": [],
-  "notes": "出厂模板：工作流已内嵌，模型按 dir 放到 ComfyUI/models/<dir>/。"
+  "notes": "出厂模板：工作流已内嵌，模型按 dir 放到 ComfyUI/models/<dir>/。 [2026-11-16] prompt 直连 CLIPTextEncode(29)，火山 LLM 扩写节点(65) 已旁路，MOSS 变为纯本地出图；如需扩写请自行接线并填写 API Key。"
 }

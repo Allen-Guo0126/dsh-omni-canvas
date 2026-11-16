@@ -1,6 +1,6 @@
 {
   "name": "@local/dsh-omni-canvas",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "DSH plugin: project-scoped infinite canvas that drives a local ComfyUI directly (Qwen-Image 2.1 accelerated text2image / image-edit, H3 director reference-to-video) with a bottom composer and an append-only asset library.",
   "type": "module",
   "repository": {
