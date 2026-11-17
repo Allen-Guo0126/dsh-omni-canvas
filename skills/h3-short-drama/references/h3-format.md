@@ -108,6 +108,7 @@ How the reference pictures align with the target video — <Picture 1> (from [Sh
 - **全英文**
 - 结构：`[Shot 1]` 无时间戳 → 后续 `[Shot N] At MM:SS.mmm,`
 - **一镜一句（2026-11-10 对齐官方样例）**：每个 `[Shot]` 写成**一个长句**，分号切开两半——
+- **画外旁白不受此限**：人物嘴不动时不需要「换嘴切镜」，一镜可放多句、且第一句必须在 `[Shot 1]` 开场 0.5 秒内开口，切镜点落在句号处（详见 `dialogue-density.md` 旁白例外）。
   - 前半：`the camera cuts to <景别>, <角度>, <运镜 + 位移量>;`
   - 后半：`<谁> <在哪>, <动作1>, <动作2>, <反应拍>.`
   - 官方样例：`[Shot 2] At 00:03.000, the camera cuts to a medium shot, 45-degree side angle, sliding forward 12 cm over three seconds on a rail; she walks three steps to the front of the desk and sets <Subject 4> down on the bare wood, her fingers staying on the cloth for a beat before she pulls her hand back.`

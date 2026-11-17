@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-h3_lint.py — MiniMax H3 提示稿机检（H1~H45 · 支持单段与多段合稿自动切分校验）
+h3_lint.py — MiniMax H3 提示稿机检（H1~H46 · 支持单段与多段合稿自动切分校验）
 
 用法:
     python h3_lint.py prompt.md --duration 15
@@ -1367,6 +1367,21 @@ def check(text, duration, aspect=None):
             r.warn("H45", "说话短语用了心理词（H3 不认，读出来照样平）：%s → 换成 pitch/volume/pace/breath/tremble"
                           % "; ".join(psych[:3]))
 
+    # ---------- H46 开场静音（画外旁白的第一句必须在首镜） ----------
+    shots_all = list(re.finditer(r"\[Shot (\d+)\]", body or ""))
+    first_d = re.search(r"<d>", body or "")
+    if first_d and shots_all:
+        # 第一句 <d> 落在第几镜之前
+        shot_of_first = 1
+        for sm in shots_all:
+            if sm.start() < first_d.start():
+                shot_of_first = int(sm.group(1))
+        if shot_of_first >= 2:
+            r.warn("H46", "第一句台词落在 [Shot %d]——段首会有 %.1f 秒静音。"
+                          "画外旁白应压进 [Shot 1]，开场 0.5 秒内开口（dialogue-density.md 旁白例外）"
+                          % (shot_of_first, 0.0))
+        else:
+            r.ok("H46", "第一句台词在首镜")
     # ---------- H10 声音分层 ----------
     snd = secs.get("overall_soundscape", "")
     bgm = secs.get("non_diegetic_music", "")
