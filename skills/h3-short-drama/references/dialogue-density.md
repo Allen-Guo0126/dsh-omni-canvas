@@ -218,3 +218,47 @@ EOF
 2. **只闻其声的画外角色**：在 subject_definitions 里加 voice-only 条目（写法："In this segment he stays beyond the door, present only as a hoarse voice."），正文**只写 `(SN)` 标签、不写 `<Subject N>` 引用**——写了 `<Subject N>` H3 会把画外的人画进画面。
 3. 电话/免提另一端的角色若在其他段有图（如管家），电话里也绑同一槽——跨段声音接续。
 4. 副作用：机检 H5（voice-only 主体未被正文引用）与 H7（Sx 首现顺序非 1,2,3）会误报，均为豁免项。
+
+#### 三档写法（按连贯度从高到低）
+
+| 档 | 写法 | 适用 | 效果 |
+|---|---|---|---|
+| ~~A · 一气呵成~~ **不推荐** | 整段旁白放**一个 `<d>`** | —— | ❌ **实测会重复台词**：38 字文本语音总长 10.25s（正常 7–9s），多念约一句；同内容分句写法只有 7.25s |
+| **B · 分段续气** | 一句一个 `<d>`，但都放**同一镜**或相邻镜的**镜首**，句间不留空档 | 2–3 句的短旁白 | 有轻微顿挫，但不碎 |
+| **C+ · 推荐** | **每句一个 `<d>`**（不会重复）+ 每句放在**本镜最前面**（先台词后画面）+ 切点写 `<scenetrans>` + `runs straight through the cut without a break` | 所有旁白/独白 | 开口早、不重复、切点不截断 |
+| **C · 句句成镜** | 一句一镜、镜首开口 | 需要画面强节奏配合时 | 有停顿感，容易显得断 |
+
+**A 档模板**（官方 §4.5 机制）：
+
+```
+[Shot 1] Close-up, … ; the woman off screen, low and dry, at a slow pace, from the start
+through to the end (S1) says in an off-screen voiceover: <d>[Chinese] 第一句。第二句。第三句。</d>
+while every mouth in the picture stays shut and her lips remain completely closed.
+
+[Shot 2] At 00:03.500, the camera cuts hard to a close shot into the basket <scenetrans>
+as her voice runs straight through the cut without a break; …（只写画面，不再写 <d>）
+
+[Shot 3] At 00:06.800, the camera cuts to a medium close-up <scenetrans>
+as her voice still runs on without a break; …
+```
+
+三个要点：
+1. **只出现一个 `<d>`**，全部台词在里面（句号分隔，逐字不改）。
+2. 每个切点后必须 `<scenetrans>` + **正向**连续证据（`runs straight through the cut without a break`）。
+3. 后续镜行**不再写 `<d>`**，只写画面——写第二遍会让模型以为要重念。
+
+> 实测（2026-11-17 · EP01 段2）：一声到底开局 0.57s 起声；分镜写法 3.52s 才起声。
+
+#### 台词在镜内的位置：写在**画面描述之后**，别放最前面
+
+同一段台词，写法不同会导致**多念一遍**。2026-11-17 实测（EP01 段1，38 字三句，正常 7–9 秒）：
+
+| 写法 | 语音总时长 | 判定 |
+|---|---|---|
+| 台词写在画面描述**之后**（`… and the woman says: <d>…</d>`） | **7.25s** | ✅ 正常 |
+| 台词放在镜头**最前面**（`[Shot 1] The woman says: <d>…</d> then the camera…`） | 10.25s | ❌ 多约 3 秒 ≈ 多半句到一句 |
+| 整段旁白塞进**一个 `<d>`** | 10.25s | ❌ 同上 |
+
+**结论：一句一 `<d>`（不合并），位置放在该镜画面描述之后、`while … lips remain completely closed` 之前。**
+
+> 「开口太晚」的正确解法是**把带第一句的镜头排在最前**、并让它足够长，而不是把台词挪到镜首。

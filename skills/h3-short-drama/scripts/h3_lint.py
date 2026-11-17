@@ -567,6 +567,8 @@ def check(text, duration, aspect=None):
         hard_en = [p for p in HARD_EN_PATTERNS if re.search(p, hard_scan, re.I)]
         if hard_cn or hard_en:
             detail = hard_cn[:6] + [p.strip("\\b") for p in hard_en[:6]]
+            # 官方连续公式（h3-format §4.5）自带 without，不算否定词，先剥掉
+            shot_bodies = [(n, h, OFFICIAL_CONTINUITY.sub('voice runs straight through the cut ', t)) for n, h, t in shot_bodies]
             hit_shots = [
                 n for n, _h, t in shot_bodies
                 if (any(w in t for w in hard_cn) or any(re.search(p, t, re.I) for p in hard_en))
@@ -1315,6 +1317,11 @@ def check(text, duration, aspect=None):
     elif UNOFFICIAL_MOVE.search(body or "") and move_hits:
         r.ok("H43", "运镜官方词 + 物理量并存")
 
+    # 官方连续公式允许出现 without（h3-format §4.5），H13 单独放行
+    OFFICIAL_CONTINUITY = re.compile(
+        r"voice (runs|carries|continues) straight through the cut without a break", re.I)
+    # H13 用：剥掉官方连续公式后再查否定词
+    body_h13 = OFFICIAL_CONTINUITY.sub(" voice runs straight through the cut ", body or "")
     # ---------- H44 每句台词都要带「可听参数」 ----------
     # 纯情绪词（self-mocking / sad / nervous）H3 听不见，只会读出平铺直叙。
     # 情感必须落成声学参数：pitch / volume / pace / breath / tremble / whisper …
@@ -1350,6 +1357,9 @@ def check(text, duration, aspect=None):
                 k = seg.rfind(",")
                 pre = (seg[k + 1:] if k >= 0 else seg[-60:])
                 pre = re.sub(r"\(S\d+\)", " ", pre)
+                # 语气也可能写在动词之后（says in an off-screen voiceover, low and dry:）
+                tail = (body or "")[mv.start():m.start()]
+                pre = pre + " " + tail
             if not AUDIBLE.search(pre):
                 no_cue.append(m.group(0)[:20] + "…")
             pm = PSYCH.findall(pre)
