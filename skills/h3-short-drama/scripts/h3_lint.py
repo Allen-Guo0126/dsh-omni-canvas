@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-h3_lint.py — MiniMax H3 提示稿机检（H1~H43 · 支持单段与多段合稿自动切分校验）
+h3_lint.py — MiniMax H3 提示稿机检（H1~H45 · 支持单段与多段合稿自动切分校验）
 
 用法:
     python h3_lint.py prompt.md --duration 15
@@ -1314,6 +1314,58 @@ def check(text, duration, aspect=None):
         r.warn("H43", "运镜只写了物理量/非官方词（如 slides forward … on a rail），建议改成官方词表：pushes in with small amplitude at slow speed")
     elif UNOFFICIAL_MOVE.search(body or "") and move_hits:
         r.ok("H43", "运镜官方词 + 物理量并存")
+
+    # ---------- H44 每句台词都要带「可听参数」 ----------
+    # 纯情绪词（self-mocking / sad / nervous）H3 听不见，只会读出平铺直叙。
+    # 情感必须落成声学参数：pitch / volume / pace / breath / tremble / whisper …
+    AUDIBLE = re.compile(
+        r"\b(pitch|pitched|high|higher|low|lower|deep|thin|bright|warm|cold|"
+        r"volume|loud|louder|quiet|quieter|soft|softer|hushed|"
+        r"pace|fast|faster|slow|slower|quickly|drawl|clipped|steady|shaky|"
+        r"breath|breathy|breathless|sigh|sighs|inhale|exhale|"
+        r"whisper|whispers|whispery|mutter|mutters|murmur|murmurs|mumble|mumbles|under her breath|under his breath|"
+        r"trembl|tremor|crack|cracks|hoarse|raspy|husky|nasal|fry|"
+        r"flat|monotone|deadpan|rising|drops|falls|rises|lilt|accent|"
+        r"stammer|stammers|stutter|pause|pauses|sing[- ]song|singsong|wry|dry)\b",
+        re.I,
+    )
+    PSYCH = re.compile(
+        r"\b(self[- ]mocking|sad|sadly|angry|angrily|nervous|nervously|embarrassed|embarrassment|"
+        r"bitter|bitterly|hopeful|hopeless|awkward|awkwardly|shy|shyly|smug|reluctant|reluctantly|"
+        r"guilty|jealous|anxious|depressed|excited|furious|heartbroken|resigned|desperate)\b",
+        re.I,
+    )
+    dl_lines = list(re.finditer(r"<d>.*?</d>", body or "", re.S))
+    if dl_lines:
+        no_cue, psych = [], []
+        for m in dl_lines:
+            raw_pre = (body or "")[max(0, m.start() - 240):m.start()]
+            # 说话短语 = 「说话动词之前那一小段」（最后一个逗号之后），不含镜头/动作描写
+            pre = ""
+            mv = None
+            for _m in re.finditer(r"\b(says?|speaks?|answers?|whispers?|mutters?|murmurs?|adds?|replies?)\b", raw_pre, re.I):
+                mv = _m
+            if mv:
+                seg = raw_pre[:mv.start()]
+                k = seg.rfind(",")
+                pre = (seg[k + 1:] if k >= 0 else seg[-60:])
+                pre = re.sub(r"\(S\d+\)", " ", pre)
+            if not AUDIBLE.search(pre):
+                no_cue.append(m.group(0)[:20] + "…")
+            pm = PSYCH.findall(pre)
+            if pm:
+                psych.append(m.group(0)[:14] + "…←" + pm[0])
+        if len(no_cue) == len(dl_lines):
+            r.fail("H44", "%d 句台词没有任何可听参数（pitch/volume/pace/breath/tremble…）。"
+                          "H3 只能靠声学描述落地情绪，纯情绪词听不见——这是'台词没情感'的根因" % len(dl_lines))
+        elif no_cue:
+            r.warn("H44", "%d/%d 句台词缺可听参数：%s（补 pitch/volume/pace/breath 其中 2 个）"
+                          % (len(no_cue), len(dl_lines), "; ".join(no_cue[:3])))
+        else:
+            r.ok("H44", "每句台词都带可听参数")
+        if psych:
+            r.warn("H45", "说话短语用了心理词（H3 不认，读出来照样平）：%s → 换成 pitch/volume/pace/breath/tremble"
+                          % "; ".join(psych[:3]))
 
     # ---------- H10 声音分层 ----------
     snd = secs.get("overall_soundscape", "")

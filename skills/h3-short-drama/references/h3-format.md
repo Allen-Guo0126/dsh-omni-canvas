@@ -246,6 +246,34 @@ The young woman with a low, flat, cool voice (S1) says at an even pace: <d>[Chin
 - **语气必须写在 `<d>` 外面**，用英文合成说话人短语
 - 首次出现要给足：character type / age / gender / on-screen 与否 / **pitch / timbre / speaking rate / accent**
 - `<d>` 内**只放语言标签 + 台词原文**，逐字不改（含标点）
+
+### 4.1.1 每一句台词都要给「可听参数」（不是只给首次出场）
+
+情绪在 H3 里**只能靠声学描述落地**。写 `self-mocking`、`sad`、`nervous` 这类心理词，模型听不见，读出来照样平——这就是「台词没情感」的根因。
+
+| 可听参数 | 可用的词 |
+|---|---|
+| **音高** | `low` / `high` / `deep` / `thin` / `rises` / `drops` |
+| **音量** | `quiet` / `hushed` / `loud` / `softer` / `louder` |
+| **语速** | `slow` / `quick` / `clipped` / `drawl` / `unhurried` / `stammers` |
+| **气息** | `breathy` / `breathless` / `sighs` / `under her breath` / `pause` |
+| **音质** | `hoarse` / `raspy` / `husky` / `trembling` / `cracks` / `nasal` / `flat` / `monotone` |
+| **口音/习惯** | `accent` / `sing-song` / `wry` / `dry` |
+
+**禁用（心理词，不是声音）**：`self-mocking` / `sad` / `angry` / `nervous` / `embarrassed` / `bitter` / `hopeful` / `awkward` / `shy` / `smug` / `reluctant` / `guilty` / `jealous` / `resigned`。
+
+改法对照：
+
+| ❌ 心理词 | ✅ 换成可听参数 |
+|---|---|
+| `light and self-mocking and low` | `low, dry, at a slow pace, with a short laugh on the last word` |
+| `sad` | `quiet and dropping, with a breath before the last word` |
+| `nervous` | `fast, breathy, stammering on the second word` |
+| `angry` | `loud, clipped, jaw tight, one word at a time` |
+
+> 判据：**把这句话念给一个看不见画面的人听，他能不能听出情绪？** 听不出 = 参数不够。
+
+**旁白/开场额外要求**：前 3 句里至少有一句要有明确的**情绪弧**（`starts bright and drops to a near whisper`），否则开场永远是平的。
 - **语气词禁写进画面段**（"她冷笑一声说" → 冷笑会被当视觉信息渲染成夸张表情）
 
 ### 4.2 `(Sx)` 编号规则
