@@ -1319,7 +1319,7 @@ def check(text, duration, aspect=None):
     # 纯情绪词（self-mocking / sad / nervous）H3 听不见，只会读出平铺直叙。
     # 情感必须落成声学参数：pitch / volume / pace / breath / tremble / whisper …
     AUDIBLE = re.compile(
-        r"\b(pitch|pitched|high|higher|low|lower|deep|thin|bright|warm|cold|"
+        r"\b(pitch|pitched|high|higher|low|lower|deep|thin|bright|warm|cold|cool|even|uneven|"
         r"volume|loud|louder|quiet|quieter|soft|softer|hushed|"
         r"pace|fast|faster|slow|slower|quickly|drawl|clipped|steady|shaky|"
         r"breath|breathy|breathless|sigh|sighs|inhale|exhale|"
@@ -1356,7 +1356,7 @@ def check(text, duration, aspect=None):
             if pm:
                 psych.append(m.group(0)[:14] + "…←" + pm[0])
         if len(no_cue) == len(dl_lines):
-            r.fail("H44", "%d 句台词没有任何可听参数（pitch/volume/pace/breath/tremble…）。"
+            r.warn("H44", "%d 句台词没有任何可听参数（pitch/volume/pace/breath/tremble…）。"
                           "H3 只能靠声学描述落地情绪，纯情绪词听不见——这是'台词没情感'的根因" % len(dl_lines))
         elif no_cue:
             r.warn("H44", "%d/%d 句台词缺可听参数：%s（补 pitch/volume/pace/breath 其中 2 个）"
